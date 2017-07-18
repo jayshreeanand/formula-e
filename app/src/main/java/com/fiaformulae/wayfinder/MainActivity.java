@@ -16,7 +16,12 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import com.fiaformulae.wayfinder.faq.FaqFragment;
 import com.fiaformulae.wayfinder.home.HomeFragment;
+import com.fiaformulae.wayfinder.map.MapFragment;
+import com.fiaformulae.wayfinder.raceday.RaceDayFragment;
+import com.fiaformulae.wayfinder.teams.TeamsFragment;
+import com.fiaformulae.wayfinder.weather.WeatherFragment;
 
 public class MainActivity extends AppCompatActivity {
   @BindView(R.id.drawer_layout) DrawerLayout drawerLayout;
@@ -24,14 +29,13 @@ public class MainActivity extends AppCompatActivity {
   private ActionBarDrawerToggle drawerToggle;
   private String[] sidebarTitles;
   private CharSequence title;
-  private CharSequence drawerTitle;
 
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
     ButterKnife.bind(this);
 
-    title = drawerTitle = getTitle();
+    title = getTitle();
     sidebarTitles = getResources().getStringArray(R.array.sidebar_array);
 
     drawerList.setAdapter(new ArrayAdapter<>(this, R.layout.item_drawer_list, sidebarTitles));
@@ -44,13 +48,14 @@ public class MainActivity extends AppCompatActivity {
         new ActionBarDrawerToggle(this, drawerLayout, R.string.drawer_open, R.string.drawer_close) {
           public void onDrawerClosed(View view) {
             super.onDrawerClosed(view);
+
             getActionBar().setTitle(title);
             invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
           }
 
           public void onDrawerOpened(View drawerView) {
             super.onDrawerOpened(drawerView);
-            getActionBar().setTitle(drawerTitle);
+            getActionBar().setTitle("");
             invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
           }
         };
@@ -102,7 +107,20 @@ public class MainActivity extends AppCompatActivity {
   }
 
   private void selectItem(int position) {
-    Fragment fragment = new HomeFragment();
+    Fragment fragment = null;
+    if (position == 0) {
+      fragment = new HomeFragment();
+    } else if (position == 1) {
+      fragment = new MapFragment();
+    } else if (position == 2) {
+      fragment = new RaceDayFragment();
+    } else if (position == 3) {
+      fragment = new TeamsFragment();
+    } else if (position == 4) {
+      fragment = new WeatherFragment();
+    } else if (position == 5) {
+      fragment = new FaqFragment();
+    }
     FragmentManager fragmentManager = getSupportFragmentManager();
     fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
 
