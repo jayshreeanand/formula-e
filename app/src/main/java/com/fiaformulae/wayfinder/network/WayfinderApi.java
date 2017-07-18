@@ -14,6 +14,4 @@ public class WayfinderApi {
   public static WayfinderApi getInstance() {
     return new WayfinderApi(Wayfinder.getBaseUrl(), OkHttpHelper.getOkHttpClientInstance());
   }
-
-
 }

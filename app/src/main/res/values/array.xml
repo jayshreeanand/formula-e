@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <array name="sidebar_array">
+    <item>@string/home</item>
+    <item>@string/wayfinder</item>
+    <item>@string/raceday_schedule</item>
+    <item>@string/race_teams</item>
+    <item>@string/prerace_events</item>
+    <item>@string/weather</item>
+    <item>@string/traffic_arrangements</item>
+    <item>@string/faq</item>
+  </array>
+</resources>
