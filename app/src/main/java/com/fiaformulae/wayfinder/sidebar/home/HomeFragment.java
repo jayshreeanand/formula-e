@@ -1,4 +1,4 @@
-package com.fiaformulae.wayfinder.home;
+package com.fiaformulae.wayfinder.sidebar.home;
 
 import android.support.v4.app.Fragment;
 

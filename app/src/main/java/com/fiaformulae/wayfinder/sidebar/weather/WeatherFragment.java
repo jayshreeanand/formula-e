@@ -1,4 +1,4 @@
-package com.fiaformulae.wayfinder.weather;
+package com.fiaformulae.wayfinder.sidebar.weather;
 
 import android.support.v4.app.Fragment;
 

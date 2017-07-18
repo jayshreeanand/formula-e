@@ -1,4 +1,4 @@
-package com.fiaformulae.wayfinder.raceday;
+package com.fiaformulae.wayfinder.sidebar.raceday;
 
 import android.support.v4.app.Fragment;
 

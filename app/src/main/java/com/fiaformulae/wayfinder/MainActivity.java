@@ -16,12 +16,12 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import com.fiaformulae.wayfinder.faq.FaqFragment;
-import com.fiaformulae.wayfinder.home.HomeFragment;
-import com.fiaformulae.wayfinder.map.MapFragment;
-import com.fiaformulae.wayfinder.raceday.RaceDayFragment;
-import com.fiaformulae.wayfinder.teams.TeamsFragment;
-import com.fiaformulae.wayfinder.weather.WeatherFragment;
+import com.fiaformulae.wayfinder.sidebar.faq.FaqFragment;
+import com.fiaformulae.wayfinder.sidebar.home.HomeFragment;
+import com.fiaformulae.wayfinder.sidebar.map.MapFragment;
+import com.fiaformulae.wayfinder.sidebar.raceday.RaceDayFragment;
+import com.fiaformulae.wayfinder.sidebar.teams.TeamsFragment;
+import com.fiaformulae.wayfinder.sidebar.weather.WeatherFragment;
 
 public class MainActivity extends AppCompatActivity {
   @BindView(R.id.drawer_layout) DrawerLayout drawerLayout;

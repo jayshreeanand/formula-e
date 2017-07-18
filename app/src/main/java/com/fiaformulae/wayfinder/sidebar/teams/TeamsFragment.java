@@ -1,4 +1,4 @@
-package com.fiaformulae.wayfinder.teams;
+package com.fiaformulae.wayfinder.sidebar.teams;
 
 import android.support.v4.app.Fragment;
 
