@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
     title = drawerTitle = getTitle();
     sidebarTitles = getResources().getStringArray(R.array.sidebar_array);
 
-    drawerList.setAdapter(new ArrayAdapter<String>(this, R.layout.item_drawer_list, sidebarTitles));
+    drawerList.setAdapter(new ArrayAdapter<>(this, R.layout.item_drawer_list, sidebarTitles));
     drawerList.setOnItemClickListener(new DrawerItemClickListener());
 
     getActionBar().setDisplayHomeAsUpEnabled(true);
