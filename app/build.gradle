@@ -18,9 +18,14 @@ android {
     testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
   }
   buildTypes {
+    debug {
+      buildConfigField "String", "BASE_URL", ""
+    }
+
     release {
       minifyEnabled false
       proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+      buildConfigField "String", "BASE_URL", ""
     }
   }
 }
@@ -71,5 +76,5 @@ dependencies {
   // OkHTTP
   compile 'com.squareup.okhttp3:okhttp:3.6.0'
   compile 'com.squareup.okhttp3:logging-interceptor:3.6.0'
-  
+
 }
