@@ -26,6 +26,12 @@ gem 'cancancan'
 # Admin
 gem 'activeadmin', github: 'activeadmin'
 
+
+# Uploads
+gem 'fog-aws'
+gem 'carrierwave', github: 'carrierwaveuploader/carrierwave'
+gem 'mini_magick'
+
 # Misc
 gem 'action_parameter'
 
