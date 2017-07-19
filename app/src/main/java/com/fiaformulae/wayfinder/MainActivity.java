@@ -25,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
   @BindView(R.id.toolbar) Toolbar toolbar;
   @BindView(R.id.navigation_view) NavigationView navigationView;
   private ActionBarDrawerToggle drawerToggle;
+  private String title;
 
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -63,35 +64,37 @@ public class MainActivity extends AppCompatActivity {
     }
   }
 
-  @Override public void setTitle(CharSequence title) {
-    toolbar.setTitle(title);
-  }
-
   private void setNavigationListener() {
     navigationView.setNavigationItemSelectedListener(item -> {
-      item.setChecked(!item.isChecked());
+      item.setChecked(true);
       drawerLayout.closeDrawers();
       Fragment fragment = null;
       switch (item.getItemId()) {
         case R.id.wayfinder:
           fragment = new MapFragment();
-          setTitle(getString(R.string.wayfinder));
+          title = getString(R.string.wayfinder);
+          break;
         case R.id.raceday_schedule:
           fragment = new RaceDayFragment();
-          setTitle(getString(R.string.raceday_schedule));
+          title = getString(R.string.raceday_schedule);
+          break;
         case R.id.race_teams:
           fragment = new TeamsFragment();
-          setTitle(getString(R.string.race_teams));
+          title = getString(R.string.race_teams);
+          break;
         case R.id.weather:
           fragment = new WeatherFragment();
-          setTitle(getString(R.string.weather));
+          title = getString(R.string.weather);
+          break;
         case R.id.faq:
           fragment = new FaqFragment();
-          setTitle(getString(R.string.faq));
+          title = getString(R.string.faq);
+          break;
         default:
           fragment = new HomeFragment();
-          setTitle(getString(R.string.home));
+          title = getString(R.string.home);
       }
+      toolbar.setTitle(title);
       FragmentManager fragmentManager = getSupportFragmentManager();
       fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
       return true;

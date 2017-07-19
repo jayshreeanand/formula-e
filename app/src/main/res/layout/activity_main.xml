@@ -18,6 +18,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/abc_action_bar_default_height_material"
         android:background="@color/colorPrimary"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
         app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
         />
 
@@ -36,6 +37,7 @@
       android:layout_gravity="start"
       android:background="@color/colorPrimary"
       app:headerLayout="@layout/layout_sidebar_header"
+      app:itemBackground="@drawable/sidebar_item_bg"
       app:itemTextColor="@android:color/white"
       app:menu="@menu/drawer"
       />
