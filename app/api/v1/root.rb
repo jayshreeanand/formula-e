@@ -3,7 +3,8 @@ module V1
     version 'v1', using: :path
 
     # Unauthenticated or Semi-authenticated Endpoints
-    
+    mount V1::AuthenticationTokensEndpoint
+    mount V1::UsersEndpoint
 
     # Authenticated Endpoints
     group do
