@@ -37,7 +37,7 @@
       android:layout_gravity="start"
       android:background="@color/colorPrimary"
       app:headerLayout="@layout/layout_sidebar_header"
-      app:itemBackground="@drawable/sidebar_item_bg"
+      app:itemBackground="@drawable/sidebar_item_state"
       app:itemTextColor="@android:color/white"
       app:menu="@menu/drawer"
       />

@@ -8,6 +8,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -48,6 +49,7 @@ public class MainActivity extends AppCompatActivity {
 
     drawerLayout.addDrawerListener(drawerToggle);
     drawerToggle.syncState();
+    selectItem(R.id.home);
   }
 
   @Override public boolean onCreateOptionsMenu(Menu menu) {
@@ -64,39 +66,52 @@ public class MainActivity extends AppCompatActivity {
     }
   }
 
+  public void openDrawer() {
+    drawerLayout.openDrawer(Gravity.START);
+  }
+
+  private void selectItem(int itemId) {
+    Fragment fragment = null;
+    switch (itemId) {
+      case R.id.wayfinder:
+        fragment = new MapFragment();
+        title = getString(R.string.wayfinder);
+        break;
+      case R.id.raceday_schedule:
+        fragment = new RaceDayFragment();
+        title = getString(R.string.raceday_schedule);
+        break;
+      case R.id.race_teams:
+        fragment = new TeamsFragment();
+        title = getString(R.string.race_teams);
+        break;
+      case R.id.weather:
+        fragment = new WeatherFragment();
+        title = getString(R.string.weather);
+        break;
+      case R.id.faq:
+        fragment = new FaqFragment();
+        title = getString(R.string.faq);
+        break;
+      default:
+        fragment = new HomeFragment();
+        title = getString(R.string.home);
+    }
+    if (getString(R.string.home).equalsIgnoreCase(title)) {
+      toolbar.setVisibility(View.GONE);
+    } else {
+      toolbar.setVisibility(View.VISIBLE);
+      toolbar.setTitle(title);
+    }
+    FragmentManager fragmentManager = getSupportFragmentManager();
+    fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
+  }
+
   private void setNavigationListener() {
     navigationView.setNavigationItemSelectedListener(item -> {
       item.setChecked(true);
       drawerLayout.closeDrawers();
-      Fragment fragment = null;
-      switch (item.getItemId()) {
-        case R.id.wayfinder:
-          fragment = new MapFragment();
-          title = getString(R.string.wayfinder);
-          break;
-        case R.id.raceday_schedule:
-          fragment = new RaceDayFragment();
-          title = getString(R.string.raceday_schedule);
-          break;
-        case R.id.race_teams:
-          fragment = new TeamsFragment();
-          title = getString(R.string.race_teams);
-          break;
-        case R.id.weather:
-          fragment = new WeatherFragment();
-          title = getString(R.string.weather);
-          break;
-        case R.id.faq:
-          fragment = new FaqFragment();
-          title = getString(R.string.faq);
-          break;
-        default:
-          fragment = new HomeFragment();
-          title = getString(R.string.home);
-      }
-      toolbar.setTitle(title);
-      FragmentManager fragmentManager = getSupportFragmentManager();
-      fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
+      selectItem(item.getItemId());
       return true;
     });
   }
