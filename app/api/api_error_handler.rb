@@ -1,3 +1,5 @@
+require 'custom_error'
+
 module ApiErrorHandler
   extend ActiveSupport::Concern
 
@@ -28,6 +30,12 @@ module ApiErrorHandler
         status: :forbidden,
         message: e.message,
       }.to_json, 403)
+    end
+
+    rescue_from Errors::CustomError do |e|
+      Rack::Response.new({
+        message: e.message,
+      }.to_json, 400)
     end
 
     rescue_from Errors::AuthorizationError do |e|
