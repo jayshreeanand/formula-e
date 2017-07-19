@@ -62,8 +62,9 @@ ActiveRecord::Schema.define(version: 20170719115036) do
     t.integer  "place_id"
     t.datetime "starts_at"
     t.datetime "ends_at"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.string   "display_picture"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
     t.index ["place_id"], name: "index_events_on_place_id", using: :btree
   end
 

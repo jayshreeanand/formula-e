@@ -4,4 +4,6 @@ class Event < ApplicationRecord
   validates :ends_at, presence: true
   
   belongs_to :place, presence: true
+
+  mount_uploader :display_picture, EventDisplayPictureUploader
 end
