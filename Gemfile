@@ -19,6 +19,10 @@ gem 'grape'
 gem 'active_model_serializers'
 gem 'grape-active_model_serializers'
 
+# Auth
+gem 'devise'
+gem 'cancancan'
+
 # Admin
 gem 'activeadmin', github: 'activeadmin'
 
