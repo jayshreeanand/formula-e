@@ -5,6 +5,7 @@ module V1
     # Unauthenticated or Semi-authenticated Endpoints
     mount V1::AuthenticationTokensEndpoint
     mount V1::UsersEndpoint
+    mount V1::PlacesEndpoint
 
     # Authenticated Endpoints
     group do
