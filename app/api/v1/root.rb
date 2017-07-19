@@ -6,6 +6,7 @@ module V1
     mount V1::AuthenticationTokensEndpoint
     mount V1::UsersEndpoint
     mount V1::PlacesEndpoint
+    mount V1::EventsEndpoint
 
     # Authenticated Endpoints
     group do
