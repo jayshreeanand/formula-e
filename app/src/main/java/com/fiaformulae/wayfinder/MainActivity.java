@@ -11,6 +11,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -25,7 +26,8 @@ import com.fiaformulae.wayfinder.sidebar.weather.WeatherFragment;
 
 public class MainActivity extends AppCompatActivity {
   @BindView(R.id.drawer_layout) DrawerLayout drawerLayout;
-  @BindView(R.id.left_drawer) ListView drawerList;
+  @BindView(R.id.left_drawer) ViewGroup drawer;
+  @BindView(R.id.drawer_list) ListView drawerList;
   private ActionBarDrawerToggle drawerToggle;
   private String[] sidebarTitles;
   private CharSequence title;
@@ -41,21 +43,21 @@ public class MainActivity extends AppCompatActivity {
     drawerList.setAdapter(new ArrayAdapter<>(this, R.layout.item_drawer_list, sidebarTitles));
     drawerList.setOnItemClickListener(new DrawerItemClickListener());
 
-    getActionBar().setDisplayHomeAsUpEnabled(true);
-    getActionBar().setHomeButtonEnabled(true);
+    getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    getSupportActionBar().setHomeButtonEnabled(true);
 
     drawerToggle =
         new ActionBarDrawerToggle(this, drawerLayout, R.string.drawer_open, R.string.drawer_close) {
           public void onDrawerClosed(View view) {
             super.onDrawerClosed(view);
 
-            getActionBar().setTitle(title);
+            getSupportActionBar().setTitle(title);
             invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
           }
 
           public void onDrawerOpened(View drawerView) {
             super.onDrawerOpened(drawerView);
-            getActionBar().setTitle("");
+            getSupportActionBar().setTitle("");
             invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
           }
         };
@@ -73,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
   }
 
   @Override public boolean onPrepareOptionsMenu(Menu menu) {
-    boolean drawerOpen = drawerLayout.isDrawerOpen(drawerList);
+    boolean drawerOpen = drawerLayout.isDrawerOpen(drawer);
     menu.findItem(R.id.action_search).setVisible(!drawerOpen);
     return super.onPrepareOptionsMenu(menu);
   }
@@ -102,7 +104,7 @@ public class MainActivity extends AppCompatActivity {
 
   @Override public void setTitle(CharSequence title) {
     this.title = title;
-    getActionBar().setTitle(title);
+    getSupportActionBar().setTitle(title);
   }
 
   private void selectItem(int position) {
@@ -126,7 +128,7 @@ public class MainActivity extends AppCompatActivity {
     // Highlight the selected item, update the title, and close the drawer
     drawerList.setItemChecked(position, true);
     setTitle(sidebarTitles[position]);
-    drawerLayout.closeDrawer(drawerList);
+    drawerLayout.closeDrawer(drawer);
   }
 
   private class DrawerItemClickListener implements ListView.OnItemClickListener {
