@@ -19,6 +19,10 @@ gem 'grape'
 gem 'active_model_serializers'
 gem 'grape-active_model_serializers'
 
+
+# Misc
+gem 'action_parameter'
+
 # View
 gem 'sass-rails', '~> 5.0'
 gem 'uglifier', '>= 1.3.0'
