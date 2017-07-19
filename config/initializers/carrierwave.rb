@@ -17,11 +17,12 @@ CarrierWave.configure do |config|
     }
     
     config.remove_previously_stored_files_after_update = true
+    config.asset_host = "https://s3.amazonaws.com/#{Rails.application.secrets.s3_bucket}"
   else
     config.storage = :file
+    config.asset_host = ActionController::Base.asset_host
   end
 
-  config.asset_host = ActionController::Base.asset_host
   config.enable_processing = false if Rails.env.test?
 end
 
