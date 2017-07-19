@@ -54,7 +54,7 @@ Rails.application.configure do
 
   # Use a real queuing backend for Active Job (and separate queues per environment)
   # config.active_job.queue_adapter     = :resque
-  # config.active_job.queue_name_prefix = "formula-e_#{Rails.env}"
+  # config.active_job.queue_name_prefix = "taggit_#{Rails.env}"
   config.action_mailer.perform_caching = false
 
   # Ignore bad email addresses and do not raise email delivery errors.
@@ -83,4 +83,24 @@ Rails.application.configure do
 
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
+
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.smtp_settings = {
+    address:        'smtp.sendgrid.net',
+    port:           '587',
+    authentication: :plain,
+    user_name:      ENV['SENDGRID_USERNAME'],
+    password:       ENV['SENDGRID_PASSWORD'],
+    domain:         'heroku.com',
+    enable_starttls_auto: true
+  }
+
+  # Setup Assets and Mailer correctly
+  config.public_file_server.enabled = true
+  config.action_controller.asset_host = ENV['ASSET_HOST']
+  config.action_mailer.asset_host = ENV['ASSET_HOST']
+
+  default_url_options = { host: ENV['REMOTE_HOST'], port: ENV['REMOTE_PORT'].to_i }
+  config.action_mailer.default_url_options = default_url_options
+  Rails.application.routes.default_url_options = default_url_options
 end
