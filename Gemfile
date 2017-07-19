@@ -19,6 +19,8 @@ gem 'grape'
 gem 'active_model_serializers'
 gem 'grape-active_model_serializers'
 
+# Admin
+gem 'activeadmin', github: 'activeadmin'
 
 # Misc
 gem 'action_parameter'
