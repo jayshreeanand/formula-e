@@ -11,6 +11,7 @@ module V1
       before do
         authenticate!
       end
+      mount V1::CurrentUserEndpoint
     end
   end
 end
