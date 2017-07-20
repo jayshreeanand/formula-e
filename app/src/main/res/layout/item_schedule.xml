@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
+    android:orientation="horizontal"
+    android:paddingLeft="@dimen/spacing_small"
+    >
+
+  <RelativeLayout
+      android:layout_width="0dp"
+      android:layout_height="wrap_content"
+      android:layout_weight="2"
+      >
+
+    <RelativeLayout
+        android:id="@+id/time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_centerVertical="true"
+        >
+
+      <TextView
+          android:id="@+id/start_time"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:text="1:15 PM"
+          android:textColor="@android:color/white"
+          />
+
+      <TextView
+          android:id="@+id/end_time"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_below="@id/start_time"
+          android:text="1:30 PM"
+          android:textColor="@android:color/white"
+          />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@+id/time"
+        >
+
+      <ImageView
+          android:id="@+id/circle"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_centerInParent="true"
+          android:src="@drawable/circle_dark"
+          />
+
+      <View
+          android:layout_width="1dp"
+          android:layout_height="wrap_content"
+          android:layout_above="@id/circle"
+          android:layout_centerHorizontal="true"
+          android:background="@color/colorPrimaryDark"
+          />
+
+      <View
+          android:layout_width="1dp"
+          android:layout_height="wrap_content"
+          android:layout_below="@id/circle"
+          android:layout_centerHorizontal="true"
+          android:background="@color/colorPrimaryDark"
+          />
+
+    </RelativeLayout>
+
+  </RelativeLayout>
+
+  <TextView
+      android:id="@+id/event_name"
+      android:layout_width="0dp"
+      android:layout_height="wrap_content"
+      android:layout_gravity="center"
+      android:layout_weight="3"
+      android:gravity="center"
+      android:text="Autograph session"
+      android:textColor="@android:color/white"
+      />
+
+  <TextView
+      android:id="@+id/place_name"
+      android:layout_width="0dp"
+      android:layout_height="wrap_content"
+      android:layout_gravity="center"
+      android:layout_weight="2"
+      android:gravity="center"
+      android:text="eVillage"
+      android:textColor="@android:color/white"
+      />
+
+</LinearLayout>
