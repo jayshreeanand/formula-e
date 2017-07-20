@@ -17,7 +17,7 @@ import butterknife.ButterKnife;
 import com.fiaformulae.wayfinder.sidebar.faq.FaqFragment;
 import com.fiaformulae.wayfinder.sidebar.home.HomeFragment;
 import com.fiaformulae.wayfinder.sidebar.map.MapFragment;
-import com.fiaformulae.wayfinder.sidebar.raceday.RaceDayFragment;
+import com.fiaformulae.wayfinder.sidebar.schedule.ScheduleFragment;
 import com.fiaformulae.wayfinder.sidebar.teams.TeamsFragment;
 import com.fiaformulae.wayfinder.sidebar.weather.WeatherFragment;
 
@@ -78,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
         title = getString(R.string.wayfinder);
         break;
       case R.id.raceday_schedule:
-        fragment = new RaceDayFragment();
+        fragment = new ScheduleFragment();
         title = getString(R.string.raceday_schedule);
         break;
       case R.id.race_teams:

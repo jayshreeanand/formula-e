@@ -1,6 +1,6 @@
-package com.fiaformulae.wayfinder.sidebar.raceday;
+package com.fiaformulae.wayfinder.sidebar.schedule;
 
-public interface RaceDayContract {
+public interface ScheduleContract {
   public interface View {
 
   }

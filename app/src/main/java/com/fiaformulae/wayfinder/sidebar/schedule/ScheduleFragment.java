@@ -1,4 +1,4 @@
-package com.fiaformulae.wayfinder.sidebar.raceday;
+package com.fiaformulae.wayfinder.sidebar.schedule;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -9,8 +9,8 @@ import android.view.ViewGroup;
 import butterknife.ButterKnife;
 import com.fiaformulae.wayfinder.R;
 
-public class RaceDayFragment extends Fragment implements RaceDayContract.View {
-  RaceDayContract.Presenter presenter;
+public class ScheduleFragment extends Fragment implements ScheduleContract.View {
+  ScheduleContract.Presenter presenter;
 
   @Nullable @Override
   public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
@@ -21,7 +21,7 @@ public class RaceDayFragment extends Fragment implements RaceDayContract.View {
   @Override public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
     super.onViewCreated(view, savedInstanceState);
     ButterKnife.bind(this, view);
-    presenter = new RaceDayPresenter(this);
+    presenter = new SchedulePresenter(this);
   }
 
   @Override public void onDestroy() {
