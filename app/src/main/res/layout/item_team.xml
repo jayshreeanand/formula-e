@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    >
+
+  <ImageView
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:src="@drawable/team_bg"
+      />
+
+  <LinearLayout
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_gravity="bottom"
+      android:orientation="vertical"
+      >
+
+    <TextView
+        android:id="@+id/team_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="ABT SCHAEFFLER AUDI SPORT"
+        android:textColor="@android:color/white"
+        />
+
+    <TextView
+        android:id="@+id/team_description"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="The Abt Schaeffler Audi Sport team has been a regular front-runner in Formula E since winning the inaugural race back in Beijing 2014."
+        android:textColor="@android:color/white"
+        />
+
+  </LinearLayout>
+
+</FrameLayout>

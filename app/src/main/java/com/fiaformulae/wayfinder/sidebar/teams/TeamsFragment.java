@@ -15,7 +15,7 @@ public class TeamsFragment extends Fragment implements TeamsContract.View {
   @Nullable @Override
   public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
       @Nullable Bundle savedInstanceState) {
-    return inflater.inflate(R.layout.fragment_base, container, false);
+    return inflater.inflate(R.layout.fragment_teams, container, false);
   }
 
   @Override public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
