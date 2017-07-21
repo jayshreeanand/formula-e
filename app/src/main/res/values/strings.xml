@@ -8,4 +8,6 @@
   <string name="faq">FAQ</string>
   <string name="drawer_open">Open drawer</string>
   <string name="drawer_close">Close drawer</string>
+
+  <string name="mapbox_access_token">pk.eyJ1IjoibmF2ZWVuMjQ2IiwiYSI6ImNqNTFjc2Q3MjAxanIyeXFsMmp2a2FrZGkifQ.oJMK2yqVnxJOMRszFJcmWA</string>
 </resources>

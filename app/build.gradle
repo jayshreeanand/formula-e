@@ -81,4 +81,8 @@ dependencies {
   compile 'com.squareup.okhttp3:okhttp:3.6.0'
   compile 'com.squareup.okhttp3:logging-interceptor:3.6.0'
 
+  //Mapbox
+  compile ('com.mapbox.mapboxsdk:mapbox-android-sdk:5.1.0@aar'){
+    transitive=true
+  }
 }
