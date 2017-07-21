@@ -48,11 +48,11 @@
           android:id="@+id/divider"
           android:layout_width="3dp"
           android:layout_height="30dp"
+          android:layout_centerVertical="true"
           android:layout_marginLeft="@dimen/spacing_small"
           android:layout_marginRight="@dimen/spacing_small"
           android:layout_toEndOf="@+id/race_name"
           android:background="@color/colorAccent"
-          android:layout_centerVertical="true"
           />
 
       <TextView
