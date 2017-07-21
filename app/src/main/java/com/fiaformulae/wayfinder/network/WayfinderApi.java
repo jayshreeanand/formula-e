@@ -3,6 +3,7 @@ package com.fiaformulae.wayfinder.network;
 import com.fiaformulae.wayfinder.Wayfinder;
 import com.fiaformulae.wayfinder.models.Event;
 import com.fiaformulae.wayfinder.models.Place;
+import com.fiaformulae.wayfinder.models.Team;
 import java.util.ArrayList;
 import okhttp3.OkHttpClient;
 import rx.observables.ConnectableObservable;
@@ -27,5 +28,9 @@ public class WayfinderApi {
 
   public ConnectableObservable<ArrayList<Place>> getPlaces() {
     return wayfinderService.getPlaces().compose(applyIOToMainThreadSchedulers()).replay();
+  }
+
+  public ConnectableObservable<ArrayList<Team>> getTeams() {
+    return wayfinderService.getTeams().compose(applyIOToMainThreadSchedulers()).replay();
   }
 }
