@@ -52,6 +52,7 @@
           android:layout_marginRight="@dimen/spacing_small"
           android:layout_toEndOf="@+id/race_name"
           android:background="@color/colorAccent"
+          android:layout_centerVertical="true"
           />
 
       <TextView
