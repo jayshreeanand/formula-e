@@ -38,4 +38,8 @@ public class HomeFragment extends Fragment implements HomeContract.View {
   @OnClick(R.id.menu_icon) public void onMenuClick() {
     ((MainActivity) getActivity()).openDrawer();
   }
+
+  @OnClick(R.id.wayfinder_button) public void onWayfinderClick() {
+    ((MainActivity) getActivity()).openWayFinder();
+  }
 }

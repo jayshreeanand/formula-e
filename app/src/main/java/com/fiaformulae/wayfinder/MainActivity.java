@@ -70,8 +70,22 @@ public class MainActivity extends AppCompatActivity {
     drawerLayout.openDrawer(Gravity.START);
   }
 
+  public void openWayFinder() {
+    selectItem(R.id.wayfinder);
+  }
+
   private void selectItem(int itemId) {
+    Menu navigationMenu = navigationView.getMenu();
+    if (navigationMenu != null) {
+      MenuItem item = navigationMenu.findItem(itemId);
+      if (item != null) item.setChecked(true);
+    }
+    showFragment(itemId);
+  }
+
+  private void showFragment(int itemId) {
     Fragment fragment = null;
+    toolbar.setVisibility(View.VISIBLE);
     switch (itemId) {
       case R.id.wayfinder:
         fragment = new MapFragment();
@@ -93,23 +107,18 @@ public class MainActivity extends AppCompatActivity {
         fragment = new FaqFragment();
         title = getString(R.string.faq);
         break;
-      default:
+      case R.id.home:
         fragment = new HomeFragment();
-        title = getString(R.string.home);
+        toolbar.setVisibility(View.GONE);
+        break;
     }
-    if (getString(R.string.home).equalsIgnoreCase(title)) {
-      toolbar.setVisibility(View.GONE);
-    } else {
-      toolbar.setVisibility(View.VISIBLE);
-      toolbar.setTitle(title);
-    }
+    toolbar.setTitle(title);
     FragmentManager fragmentManager = getSupportFragmentManager();
     fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
   }
 
   private void setNavigationListener() {
     navigationView.setNavigationItemSelectedListener(item -> {
-      item.setChecked(true);
       drawerLayout.closeDrawers();
       selectItem(item.getItemId());
       return true;
