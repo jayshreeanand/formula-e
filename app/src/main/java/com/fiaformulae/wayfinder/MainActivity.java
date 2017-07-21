@@ -3,7 +3,7 @@ package com.fiaformulae.wayfinder;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -113,8 +113,9 @@ public class MainActivity extends AppCompatActivity {
         break;
     }
     toolbar.setTitle(title);
-    FragmentManager fragmentManager = getSupportFragmentManager();
-    fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
+    FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+    transaction.setCustomAnimations(R.anim.slide_in, R.anim.slide_out);
+    transaction.replace(R.id.content_frame, fragment).commit();
   }
 
   private void setNavigationListener() {
