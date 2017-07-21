@@ -6,12 +6,19 @@
     >
 
   <ImageView
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:src="@drawable/home_gradient"
+      />
+
+  <ImageView
       android:id="@+id/menu_icon"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-      android:layout_marginStart="@dimen/spacing_medium"
-      android:layout_marginTop="@dimen/spacing_medium"
-      android:src="@drawable/ic_menu_white_36dp"
+      android:layout_marginStart="@dimen/spacing_small"
+      android:layout_marginTop="@dimen/spacing_small"
+      android:padding="@dimen/spacing_small"
+      android:src="@drawable/ic_menu_white_24dp"
       />
 
 </RelativeLayout>
