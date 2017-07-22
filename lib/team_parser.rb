@@ -9,7 +9,9 @@ class TeamParser
     browser = Watir::Browser.new
     doc = Nokogiri::HTML(open(URI.join(base_url, 'teams-and-drivers.html').to_s))
 
-    results = []
+    Team.all.destroy_all
+    Driver.all.destroy_all
+
     doc.css('.m-teams-hub__wrap .b-card-item').each do |team|
       result = {}
       result[:flag] = URI.join(base_url, team.css('.s-flag img').attribute('src').value).to_s
@@ -36,7 +38,7 @@ class TeamParser
 
         driver[:display_picture] = driver_doc.css('.b-driver-avatar img').attribute('src').value
         driver[:name] = driver_doc.css('.s-name').text
-        driver[:description] = driver_doc.css('.s-content__biography p')[0].text
+        driver[:description] = driver_doc.css('.s-content__biography p')[0].text || '-'
         driver_statistics = {}
         driver_statistics[:wins] = driver_doc.css('forix-stats .s-wins').text.strip.split("\n")[0]
         driver_statistics[:podiums] = driver_doc.css('forix-stats .s-podiums').text.strip.split("\n")[0]
@@ -47,23 +49,17 @@ class TeamParser
         drivers << driver
       end
       result[:drivers] = drivers
-      results << result
-    end
 
-    Team.all.destroy_all
-    Driver.all.destroy_all
-
-    results.each do |team_attributes|
       team = Team.new
-      team.remote_flag_url = team_attributes[:flag]
-      team.remote_logo_url = team_attributes[:logo]
-      team.remote_display_picture_url = team_attributes[:display_picture]
-      team.name = team_attributes[:name]
-      team.description = team_attributes[:description]
-      team.statistics = team_attributes[:statistics]
+      team.remote_flag_url = result[:flag]
+      team.remote_logo_url = result[:logo]
+      team.remote_display_picture_url = result[:display_picture]
+      team.name = result[:name]
+      team.description = result[:description]
+      team.statistics = result[:statistics]
       team.save!
 
-      team_attributes[:drivers].each do |driver_attributes|
+      result[:drivers].each do |driver_attributes|
         driver  = Driver.new
         driver.team = team
         driver.name = driver_attributes[:name]
@@ -73,5 +69,9 @@ class TeamParser
         driver.save!
       end
     end
+
+    
+
+    
   end
 end
