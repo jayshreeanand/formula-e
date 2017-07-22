@@ -82,7 +82,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/spacing_medium"
         android:layout_marginTop="@dimen/spacing_xmedium"
-        android:text="Get ready to drive the future as Formula E powers into Hong Kong."
+        android:text="Get ready to drive the future as Formula E powers into Paris."
         android:textColor="@android:color/white"
         android:textSize="15dp"
         />
