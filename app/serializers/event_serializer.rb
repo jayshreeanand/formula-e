@@ -3,7 +3,6 @@ class EventSerializer < BaseSerializer
 
   has_one :place
 
-
   def display_picture
     {
       default: object.display_picture_url,
