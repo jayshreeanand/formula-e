@@ -7,6 +7,8 @@ module V1
     mount V1::UsersEndpoint
     mount V1::PlacesEndpoint
     mount V1::EventsEndpoint
+    mount V1::TeamsEndpoint
+
 
     # Authenticated Endpoints
     group do

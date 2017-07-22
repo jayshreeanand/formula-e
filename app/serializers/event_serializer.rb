@@ -5,6 +5,10 @@ class EventSerializer < BaseSerializer
 
 
   def display_picture
-    object.display_picture_url(:normal)
+    {
+      default: object.display_picture_url,
+      normal: object.display_picture_url(:normal),
+      thumb: object.display_picture_url(:thumb)
+    }
   end
 end

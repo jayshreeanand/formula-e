@@ -1,15 +1,27 @@
 class TeamSerializer < BaseSerializer
-  attributes :name, :description, :starts_at, :ends_at, :display_picture, :logo, :flag
+  attributes :name, :description, :display_picture, :logo, :flag
 
   def display_picture
-    object.display_picture_url(:normal)
+    {
+      default: object.display_picture_url,
+      normal: object.display_picture_url(:normal),
+      thumb: object.display_picture_url(:thumb)
+    }
   end
 
-  def display_picture
-    object.logo_url(:normal)
+  def logo
+    {
+      default: object.logo_url,
+      normal: object.logo_url(:normal),
+      thumb: object.logo_url(:thumb)
+    }
   end
 
-  def display_picture
-    object.flag_url(:normal)
+  def flag
+    {
+      default: object.flag_url,
+      normal: object.flag_url(:normal),
+      thumb: object.flag_url(:thumb)
+    }
   end
 end
