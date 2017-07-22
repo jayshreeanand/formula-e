@@ -1,5 +1,5 @@
 class TeamSerializer < BaseSerializer
-  attributes :name, :description, :display_picture, :logo, :flag
+  attributes :name, :description, :display_picture, :logo, :flag, :statistics
 
   def display_picture
     {

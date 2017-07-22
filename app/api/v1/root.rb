@@ -8,6 +8,7 @@ module V1
     mount V1::PlacesEndpoint
     mount V1::EventsEndpoint
     mount V1::TeamsEndpoint
+    mount V1::DriversEndpoint
 
 
     # Authenticated Endpoints

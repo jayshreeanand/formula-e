@@ -6,5 +6,5 @@ class Driver < ApplicationRecord
   
   serialize :statistics
 
-  mount_uploader :display_picture, TeamDisplayPictureUploader
+  mount_uploader :display_picture, TeamLogoUploader
 end
