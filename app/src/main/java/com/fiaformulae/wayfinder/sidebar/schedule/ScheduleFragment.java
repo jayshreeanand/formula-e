@@ -19,8 +19,6 @@ public class ScheduleFragment extends Fragment implements ScheduleContract.View 
   ScheduleContract.Presenter presenter;
   @BindView(R.id.progress_bar) ProgressBar progressBar;
   @BindView(R.id.event_list) RecyclerView eventsRecyclerView;
-  private RecyclerView.Adapter adapter;
-  private RecyclerView.LayoutManager layoutManager;
 
   @Nullable @Override
   public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
@@ -57,7 +55,7 @@ public class ScheduleFragment extends Fragment implements ScheduleContract.View 
   }
 
   private void setAdapter(ArrayList<Event> events) {
-    adapter = new ScheduleAdapter(events);
+    RecyclerView.Adapter adapter = new ScheduleAdapter(getActivity(), events);
     eventsRecyclerView.setAdapter(adapter);
   }
 }

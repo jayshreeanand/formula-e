@@ -1,5 +1,6 @@
 package com.fiaformulae.wayfinder.sidebar.schedule;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,8 +15,10 @@ import java.util.ArrayList;
 
 public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.ViewHolder> {
   private ArrayList<Event> events;
+  private Context context;
 
-  public ScheduleAdapter(ArrayList<Event> events) {
+  public ScheduleAdapter(Context context, ArrayList<Event> events) {
+    this.context = context;
     this.events = events;
   }
 
