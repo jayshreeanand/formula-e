@@ -5,6 +5,11 @@ module V1
       get '/' do
         Team.all
       end
+
+      desc 'Get team with id'
+      get '/:id' do
+        Team.find(params[:id])
+      end
     end
   end
 end

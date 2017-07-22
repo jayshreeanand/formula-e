@@ -1,6 +1,8 @@
 class TeamSerializer < BaseSerializer
   attributes :name, :description, :display_picture, :logo, :flag, :statistics
 
+  has_many :drivers
+  
   def display_picture
     {
       default: object.display_picture_url,
