@@ -91,17 +91,15 @@ public class MapFragment extends Fragment implements MapContract.View, OnMapRead
   }
 
   private class DrawTrackGeoJson extends AsyncTask<Void, Void, List<LatLng>> {
-    @Override protected List<LatLng> doInBackground(Void... voids) {
 
+    @Override protected List<LatLng> doInBackground(Void... voids) {
       ArrayList<LatLng> points = GeoJsonUtils.parseCoordinates(getActivity(), "track.geojson");
       return points;
     }
 
     @Override protected void onPostExecute(List<LatLng> points) {
       super.onPostExecute(points);
-
       if (points.size() > 0) {
-        // Draw polyline on map
         mapboxMap.addPolyline(new PolylineOptions().addAll(points)
             .color(ContextCompat.getColor(getActivity(), R.color.white))
             .width(4));
@@ -110,17 +108,15 @@ public class MapFragment extends Fragment implements MapContract.View, OnMapRead
   }
 
   private class DrawEVillageGeoJson extends AsyncTask<Void, Void, List<LatLng>> {
-    @Override protected List<LatLng> doInBackground(Void... voids) {
 
+    @Override protected List<LatLng> doInBackground(Void... voids) {
       ArrayList<LatLng> points = GeoJsonUtils.parseCoordinates(getActivity(), "evillage.geojson");
       return points;
     }
 
     @Override protected void onPostExecute(List<LatLng> points) {
       super.onPostExecute(points);
-
       if (points.size() > 0) {
-        // Draw polyline on map
         mapboxMap.addPolyline(new PolylineOptions().addAll(points)
             .color(ContextCompat.getColor(getActivity(), R.color.colorAccent))
             .width(4));
