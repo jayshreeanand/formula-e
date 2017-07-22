@@ -6,11 +6,16 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import com.fiaformulae.wayfinder.R;
+import com.fiaformulae.wayfinder.models.Event;
+import java.util.ArrayList;
 
 public class ScheduleFragment extends Fragment implements ScheduleContract.View {
   ScheduleContract.Presenter presenter;
+  @BindView(R.id.progress_bar) ProgressBar progressBar;
 
   @Nullable @Override
   public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
@@ -22,10 +27,23 @@ public class ScheduleFragment extends Fragment implements ScheduleContract.View 
     super.onViewCreated(view, savedInstanceState);
     ButterKnife.bind(this, view);
     presenter = new SchedulePresenter(this);
+    presenter.getEvents();
   }
 
   @Override public void onDestroy() {
     super.onDestroy();
     presenter.onDestroy();
+  }
+
+  @Override public void showProgressBar() {
+    progressBar.setVisibility(View.VISIBLE);
+  }
+
+  @Override public void hideProgressBar() {
+    progressBar.setVisibility(View.GONE);
+  }
+
+  @Override public void onGettingEvents(ArrayList<Event> events) {
+
   }
 }
