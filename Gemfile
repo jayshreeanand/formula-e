@@ -35,6 +35,7 @@ gem 'mini_magick'
 # Misc
 gem 'action_parameter'
 gem 'nokogiri'
+gem 'mechanize'
 
 # View
 gem 'sass-rails', '~> 5.0'
