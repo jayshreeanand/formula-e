@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import com.fiaformulae.wayfinder.MainActivity;
 import com.fiaformulae.wayfinder.R;
 import com.fiaformulae.wayfinder.models.Event;
 import java.util.ArrayList;
@@ -29,6 +30,7 @@ public class ScheduleFragment extends Fragment implements ScheduleContract.View 
   @Override public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
     super.onViewCreated(view, savedInstanceState);
     ButterKnife.bind(this, view);
+    ((MainActivity) getActivity()).showToolbar();
 
     eventsRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
     setAdapter(new ArrayList<>());

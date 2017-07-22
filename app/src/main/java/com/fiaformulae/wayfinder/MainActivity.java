@@ -74,6 +74,10 @@ public class MainActivity extends AppCompatActivity {
     selectItem(R.id.wayfinder);
   }
 
+  public void showToolbar() {
+    toolbar.setVisibility(View.VISIBLE);
+  }
+
   private void selectItem(int itemId) {
     Menu navigationMenu = navigationView.getMenu();
     if (navigationMenu != null) {
@@ -85,7 +89,6 @@ public class MainActivity extends AppCompatActivity {
 
   private void showFragment(int itemId) {
     Fragment fragment = null;
-    toolbar.setVisibility(View.VISIBLE);
     switch (itemId) {
       case R.id.wayfinder:
         fragment = new MapFragment();
@@ -114,7 +117,7 @@ public class MainActivity extends AppCompatActivity {
     }
     toolbar.setTitle(title);
     FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-    transaction.setCustomAnimations(R.anim.slide_in, R.anim.slide_out);
+    //transaction.setCustomAnimations(R.anim.slide_in, R.anim.slide_out);
     transaction.replace(R.id.content_frame, fragment).commit();
   }
 

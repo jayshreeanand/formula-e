@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import butterknife.ButterKnife;
+import com.fiaformulae.wayfinder.MainActivity;
 import com.fiaformulae.wayfinder.R;
 
 public class FaqFragment extends Fragment implements FaqContract.View {
@@ -21,6 +22,7 @@ public class FaqFragment extends Fragment implements FaqContract.View {
   @Override public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
     super.onViewCreated(view, savedInstanceState);
     ButterKnife.bind(this, view);
+    ((MainActivity) getActivity()).showToolbar();
     presenter = new FaqPresenter(this);
   }
 
