@@ -39,7 +39,9 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.ViewHo
     holder.startTimeView.setText(DateUtils.getTimeString(event.getStartTime()));
     holder.endTimeView.setText(DateUtils.getTimeString(event.getEndTime()));
     holder.eventNameView.setText(event.getName());
-    holder.placeNameView.setText(event.getPlace().getName());
+    if (event.getPlace() != null) {
+      holder.placeNameView.setText(event.getPlace().getName());
+    }
 
     holder.getView().setOnClickListener(new View.OnClickListener() {
       @Override public void onClick(View view) {
