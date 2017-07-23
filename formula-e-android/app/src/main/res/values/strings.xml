@@ -1,0 +1,13 @@
+<resources>
+  <string name="app_name">Formula-E Wayfinder</string>
+  <string name="home">Home</string>
+  <string name="wayfinder">WayFinder</string>
+  <string name="raceday_schedule">Raceday Schedule</string>
+  <string name="race_teams">Race Teams</string>
+  <string name="weather">Weather</string>
+  <string name="faq">FAQ</string>
+  <string name="drawer_open">Open drawer</string>
+  <string name="drawer_close">Close drawer</string>
+
+  <string name="mapbox_access_token">pk.eyJ1IjoibmF2ZWVuMjQ2IiwiYSI6ImNqNTFjc2Q3MjAxanIyeXFsMmp2a2FrZGkifQ.oJMK2yqVnxJOMRszFJcmWA</string>
+</resources>
