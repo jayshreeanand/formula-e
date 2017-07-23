@@ -1,5 +1,6 @@
 package com.fiaformulae.wayfinder.models;
 
+import com.google.gson.JsonObject;
 import com.google.gson.annotations.SerializedName;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -12,7 +13,7 @@ public class Team implements Serializable {
   @SerializedName("drivers") ArrayList<Driver> drivers;
   @SerializedName("logo") Image logo;
   @SerializedName("flag") Image flag;
-  @SerializedName("statistics") String details;
+  @SerializedName("statistics") JsonObject details;
 
   public int getId() {
     return id;
@@ -42,7 +43,7 @@ public class Team implements Serializable {
     return flag;
   }
 
-  public String getDetails() {
+  public JsonObject getDetails() {
     return details;
   }
 }

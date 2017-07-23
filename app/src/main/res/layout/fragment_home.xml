@@ -39,7 +39,7 @@
           android:id="@+id/race_name"
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
-          android:text="R5"
+          android:text="R6"
           android:textColor="@color/colorAccent"
           android:textSize="30dp"
           />
@@ -60,7 +60,7 @@
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
           android:layout_toEndOf="@+id/divider"
-          android:text="13 MAY 2017"
+          android:text="20 MAY 2017"
           android:textColor="@color/colorAccent"
           android:textSize="30dp"
           />
@@ -71,7 +71,7 @@
         android:id="@+id/race_city"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hong Kong"
+        android:text="Paris"
         android:textColor="@android:color/white"
         android:textSize="30dp"
         />
