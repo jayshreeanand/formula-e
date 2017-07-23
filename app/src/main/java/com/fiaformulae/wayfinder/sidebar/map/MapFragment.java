@@ -1,5 +1,6 @@
 package com.fiaformulae.wayfinder.sidebar.map;
 
+import android.content.res.ColorStateList;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -137,7 +138,8 @@ public class MapFragment extends Fragment implements MapContract.View, OnMapRead
   private void expandFabMenu() {
     isFabOpen = true;
     fab.setImageResource(R.drawable.ic_fab_collapse);
-    fab.setBackgroundColor(ContextCompat.getColor(getActivity(), R.color.white));
+    fab.setBackgroundTintList(
+        ColorStateList.valueOf(ContextCompat.getColor(getActivity(), R.color.white)));
     fabWashroom.animate().translationX(-(fab.getWidth() + 16));
     fabGame.animate().translationX(-(fab.getWidth() + 16) * 2);
     fabFood.animate().translationX(-(fab.getWidth() + 16) * 3);
@@ -146,7 +148,8 @@ public class MapFragment extends Fragment implements MapContract.View, OnMapRead
   private void collapseFabMenu() {
     isFabOpen = false;
     fab.setImageResource(R.drawable.ic_fab_expand);
-    fab.setBackgroundColor(ContextCompat.getColor(getActivity(), R.color.colorAccent));
+    fab.setBackgroundTintList(
+        ColorStateList.valueOf(ContextCompat.getColor(getActivity(), R.color.colorAccent)));
     fabWashroom.animate().translationX(0);
     fabGame.animate().translationX(0);
     fabFood.animate().translationX(0);
