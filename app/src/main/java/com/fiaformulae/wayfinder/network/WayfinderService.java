@@ -1,5 +1,6 @@
 package com.fiaformulae.wayfinder.network;
 
+import com.fiaformulae.wayfinder.models.Driver;
 import com.fiaformulae.wayfinder.models.Event;
 import com.fiaformulae.wayfinder.models.Place;
 import com.fiaformulae.wayfinder.models.Team;
@@ -14,4 +15,6 @@ public interface WayfinderService {
   @GET("places") Observable<ArrayList<Place>> getPlaces();
 
   @GET("teams") Observable<ArrayList<Team>> getTeams();
+
+  @GET("drivers") Observable<ArrayList<Driver>> getDrivers();
 }
