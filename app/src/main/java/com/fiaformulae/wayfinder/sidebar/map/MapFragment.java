@@ -3,6 +3,7 @@ package com.fiaformulae.wayfinder.sidebar.map;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
@@ -11,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import com.fiaformulae.wayfinder.MainActivity;
 import com.fiaformulae.wayfinder.R;
 import com.fiaformulae.wayfinder.models.Place;
@@ -28,9 +30,14 @@ public class MapFragment extends Fragment implements MapContract.View, OnMapRead
   private static final String TAG = "MapFragment";
   @BindView(R.id.mapview) MapView mapView;
   @BindView(R.id.progress_bar) ProgressBar progressBar;
+  @BindView(R.id.fab) FloatingActionButton fab;
+  @BindView(R.id.fab_washroom) FloatingActionButton fabWashroom;
+  @BindView(R.id.fab_game) FloatingActionButton fabGame;
+  @BindView(R.id.fab_food) FloatingActionButton fabFood;
   private MapContract.Presenter presenter;
   private MapboxMap mapboxMap;
   private ArrayList<Place> places;
+  private boolean isFabOpen = false;
 
   @Nullable @Override
   public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
@@ -105,6 +112,44 @@ public class MapFragment extends Fragment implements MapContract.View, OnMapRead
 
   @Override public void onGettingPlaces(ArrayList<Place> places) {
     this.places = places;
+  }
+
+  @OnClick(R.id.fab) void onFabClick() {
+    if (!isFabOpen) {
+      expandFabMenu();
+    } else {
+      collapseFabMenu();
+    }
+  }
+
+  @OnClick(R.id.fab_washroom) void onFabWashroomClick() {
+
+  }
+
+  @OnClick(R.id.fab_game) void onFabGameClick() {
+
+  }
+
+  @OnClick(R.id.fab_food) void onFabFoodClick() {
+
+  }
+
+  private void expandFabMenu() {
+    isFabOpen = true;
+    fab.setImageResource(R.drawable.ic_fab_collapse);
+    fab.setBackgroundColor(ContextCompat.getColor(getActivity(), R.color.white));
+    fabWashroom.animate().translationX(-(fab.getWidth() + 16));
+    fabGame.animate().translationX(-(fab.getWidth() + 16) * 2);
+    fabFood.animate().translationX(-(fab.getWidth() + 16) * 3);
+  }
+
+  private void collapseFabMenu() {
+    isFabOpen = false;
+    fab.setImageResource(R.drawable.ic_fab_expand);
+    fab.setBackgroundColor(ContextCompat.getColor(getActivity(), R.color.colorAccent));
+    fabWashroom.animate().translationX(0);
+    fabGame.animate().translationX(0);
+    fabFood.animate().translationX(0);
   }
 
   private class DrawTrackGeoJson extends AsyncTask<Void, Void, List<LatLng>> {
