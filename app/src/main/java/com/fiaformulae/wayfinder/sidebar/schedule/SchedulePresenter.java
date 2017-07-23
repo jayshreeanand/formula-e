@@ -5,6 +5,7 @@ import com.fiaformulae.wayfinder.models.Event;
 import com.fiaformulae.wayfinder.network.WayfinderApi;
 import com.fiaformulae.wayfinder.utils.RxUtils;
 import java.util.ArrayList;
+import java.util.Collections;
 import rx.observables.ConnectableObservable;
 import rx.subscriptions.CompositeSubscription;
 
@@ -33,6 +34,7 @@ public class SchedulePresenter implements ScheduleContract.Presenter {
 
   private void onGetEventsSuccess(ArrayList<Event> events) {
     view.hideProgressBar();
+    Collections.sort(events);
     view.onGettingEvents(events);
   }
 

@@ -1,10 +1,11 @@
 package com.fiaformulae.wayfinder.models;
 
+import android.support.annotation.NonNull;
 import com.google.gson.annotations.SerializedName;
 import java.io.Serializable;
 import java.util.Date;
 
-public class Event implements Serializable {
+public class Event implements Serializable, Comparable<Event> {
   @SerializedName("id") int id;
   @SerializedName("name") String name;
   @SerializedName("description") String description;
@@ -39,5 +40,9 @@ public class Event implements Serializable {
 
   public Image getImage() {
     return image;
+  }
+
+  @Override public int compareTo(@NonNull Event event) {
+    return getStartTime().compareTo(event.getStartTime());
   }
 }
