@@ -38,6 +38,6 @@ public class SchedulePresenter implements ScheduleContract.Presenter {
 
   private void onGetEventsFailure(Throwable throwable) {
     view.hideProgressBar();
-    Log.d("Schedule", "Failed to get events");
+    Log.d("Error", "Failed to get events - " + throwable.getMessage());
   }
 }

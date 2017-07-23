@@ -8,10 +8,12 @@ import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import com.fiaformulae.wayfinder.MainActivity;
 import com.fiaformulae.wayfinder.R;
+import com.fiaformulae.wayfinder.models.Place;
 import com.fiaformulae.wayfinder.utils.GeoJsonUtils;
 import com.mapbox.mapboxsdk.Mapbox;
 import com.mapbox.mapboxsdk.annotations.PolylineOptions;
@@ -25,8 +27,10 @@ import java.util.List;
 public class MapFragment extends Fragment implements MapContract.View, OnMapReadyCallback {
   private static final String TAG = "MapFragment";
   @BindView(R.id.mapview) MapView mapView;
+  @BindView(R.id.progress_bar) ProgressBar progressBar;
   private MapContract.Presenter presenter;
   private MapboxMap mapboxMap;
+  private ArrayList<Place> places;
 
   @Nullable @Override
   public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
@@ -40,6 +44,7 @@ public class MapFragment extends Fragment implements MapContract.View, OnMapRead
     ButterKnife.bind(this, view);
     ((MainActivity) getActivity()).showToolbar();
     presenter = new MapPresenter(this);
+
     initializeMap(savedInstanceState);
   }
 
@@ -88,6 +93,18 @@ public class MapFragment extends Fragment implements MapContract.View, OnMapRead
     this.mapboxMap = mapboxMap;
     new DrawTrackGeoJson().execute();
     new DrawEVillageGeoJson().execute();
+  }
+
+  @Override public void showProgressBar() {
+    progressBar.setVisibility(View.VISIBLE);
+  }
+
+  @Override public void hideProgressBar() {
+    progressBar.setVisibility(View.GONE);
+  }
+
+  @Override public void onGettingPlaces(ArrayList<Place> places) {
+    this.places = places;
   }
 
   private class DrawTrackGeoJson extends AsyncTask<Void, Void, List<LatLng>> {

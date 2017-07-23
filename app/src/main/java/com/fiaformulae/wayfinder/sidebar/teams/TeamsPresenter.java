@@ -38,6 +38,6 @@ public class TeamsPresenter implements TeamsContract.Presenter {
 
   private void onGetTeamsFailure(Throwable throwable) {
     view.hideProgressBar();
-    Log.d("Teams", throwable.getMessage());
+    Log.d("Error", "Failed to get teams - " + throwable.getMessage());
   }
 }
