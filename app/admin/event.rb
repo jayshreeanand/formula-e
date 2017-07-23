@@ -6,9 +6,9 @@ ActiveAdmin.register Event do
     id_column
     column :name
     column :description
-    column :display_picture do |product|
-      image_tag product.display_picture.thumb.url
-    end
+    # column :display_picture do |product|
+    #   image_tag product.display_picture.thumb.url
+    # end
     column :place
     column :starts_at
     column :ends_at
