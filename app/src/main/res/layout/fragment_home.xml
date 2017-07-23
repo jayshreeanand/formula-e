@@ -41,7 +41,7 @@
           android:layout_height="wrap_content"
           android:text="R6"
           android:textColor="@color/colorAccent"
-          android:textSize="30dp"
+          android:textSize="30sp"
           />
 
       <View
@@ -60,9 +60,9 @@
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
           android:layout_toEndOf="@+id/divider"
-          android:text="20 MAY 2017"
+          android:text="1 AUG 2017"
           android:textColor="@color/colorAccent"
-          android:textSize="30dp"
+          android:textSize="30sp"
           />
 
     </RelativeLayout>
@@ -73,7 +73,7 @@
         android:layout_height="wrap_content"
         android:text="Paris"
         android:textColor="@android:color/white"
-        android:textSize="30dp"
+        android:textSize="30sp"
         />
 
     <TextView
@@ -84,7 +84,7 @@
         android:layout_marginTop="@dimen/spacing_xmedium"
         android:text="Get ready to drive the future as Formula E powers into Paris."
         android:textColor="@android:color/white"
-        android:textSize="15dp"
+        android:textSize="15sp"
         />
 
     <Button
@@ -98,7 +98,7 @@
         android:paddingRight="@dimen/spacing_medium"
         android:text="WAY FINdER"
         android:textColor="@android:color/white"
-        android:textSize="20dp"
+        android:textSize="20sp"
         />
 
   </LinearLayout>
