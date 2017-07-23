@@ -19,6 +19,13 @@
 
     </activity>
     <activity
+        android:name=".drivers.DriversActivity"
+        android:parentActivityName=".MainActivity">
+      <meta-data
+          android:name="android.support.PARENT_ACTIVITY"
+          android:value=".MainActivity"/>
+    </activity>
+    <activity
         android:name=".splash.SplashActivity"
         android:screenOrientation="portrait"
         android:theme="@style/SplashTheme">

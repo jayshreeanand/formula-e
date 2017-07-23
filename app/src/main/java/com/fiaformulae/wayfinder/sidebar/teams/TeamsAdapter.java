@@ -1,6 +1,7 @@
 package com.fiaformulae.wayfinder.sidebar.teams;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +12,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import com.bumptech.glide.Glide;
 import com.fiaformulae.wayfinder.R;
+import com.fiaformulae.wayfinder.drivers.DriversActivity;
 import com.fiaformulae.wayfinder.models.Team;
 import java.util.ArrayList;
 
@@ -37,7 +39,7 @@ public class TeamsAdapter extends RecyclerView.Adapter<TeamsAdapter.ViewHolder> 
 
     holder.getView().setOnClickListener(new View.OnClickListener() {
       @Override public void onClick(View view) {
-
+        context.startActivity(new Intent(context, DriversActivity.class));
       }
     });
   }
