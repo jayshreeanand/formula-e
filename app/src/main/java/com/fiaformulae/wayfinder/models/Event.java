@@ -11,7 +11,7 @@ public class Event implements Serializable {
   @SerializedName("place") Place place;
   @SerializedName("starts_at") Date startTime;
   @SerializedName("ends_at") Date endTime;
-  @SerializedName("display_picture") String imageUrl;
+  @SerializedName("display_picture") Image image;
 
   public int getId() {
     return id;
@@ -37,7 +37,7 @@ public class Event implements Serializable {
     return endTime;
   }
 
-  public String getImageUrl() {
-    return imageUrl;
+  public Image getImage() {
+    return image;
   }
 }

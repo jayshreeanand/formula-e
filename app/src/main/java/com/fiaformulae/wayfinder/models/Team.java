@@ -8,8 +8,11 @@ public class Team implements Serializable {
   @SerializedName("id") int id;
   @SerializedName("name") String name;
   @SerializedName("description") String description;
-  @SerializedName("display_picture") String imageUrl;
+  @SerializedName("display_picture") Image image;
   @SerializedName("drivers") ArrayList<Driver> drivers;
+  @SerializedName("logo") Image logo;
+  @SerializedName("flag") Image flag;
+  @SerializedName("statistics") String details;
 
   public int getId() {
     return id;
@@ -23,11 +26,23 @@ public class Team implements Serializable {
     return description;
   }
 
-  public String getImageUrl() {
-    return imageUrl;
+  public Image getImage() {
+    return image;
   }
 
   public ArrayList<Driver> getDrivers() {
     return drivers;
+  }
+
+  public Image getLogo() {
+    return logo;
+  }
+
+  public Image getFlag() {
+    return flag;
+  }
+
+  public String getDetails() {
+    return details;
   }
 }

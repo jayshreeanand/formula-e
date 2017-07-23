@@ -7,7 +7,8 @@ public class Driver implements Serializable {
   @SerializedName("id") int id;
   @SerializedName("name") String name;
   @SerializedName("description") String description;
-  @SerializedName("display_picture") String imageUrl;
+  @SerializedName("display_picture") Image image;
+  @SerializedName("statistics") String details;
   @SerializedName("team") Team team;
 
   public int getId() {
@@ -22,11 +23,15 @@ public class Driver implements Serializable {
     return description;
   }
 
-  public String getImageUrl() {
-    return imageUrl;
+  public Image getImage() {
+    return image;
   }
 
   public Team getTeam() {
     return team;
+  }
+
+  public String getDetails() {
+    return details;
   }
 }
