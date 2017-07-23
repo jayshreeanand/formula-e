@@ -31,10 +31,6 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.ViewHo
 
   @Override public void onBindViewHolder(ScheduleAdapter.ViewHolder holder, int position) {
     Event event = events.get(position);
-    holder.topLine.setVisibility(View.VISIBLE);
-    holder.bottomLine.setVisibility(View.VISIBLE);
-    if (position == 0) holder.topLine.setVisibility(View.GONE);
-    if (position == getItemCount() - 1) holder.bottomLine.setVisibility(View.GONE);
 
     holder.startTimeView.setText(DateUtils.getTimeString(event.getStartTime()));
     holder.endTimeView.setText(DateUtils.getTimeString(event.getEndTime()));
@@ -59,8 +55,6 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.ViewHo
     @BindView(R.id.end_time) TextView endTimeView;
     @BindView(R.id.event_name) TextView eventNameView;
     @BindView(R.id.place_name) TextView placeNameView;
-    @BindView(R.id.top_line) View topLine;
-    @BindView(R.id.bottom_line) View bottomLine;
     private View view;
 
     public ViewHolder(View view) {
