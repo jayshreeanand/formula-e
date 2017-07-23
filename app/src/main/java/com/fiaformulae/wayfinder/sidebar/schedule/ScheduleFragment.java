@@ -57,7 +57,8 @@ public class ScheduleFragment extends Fragment implements ScheduleContract.View 
   }
 
   private void setAdapter(ArrayList<Event> events) {
-    RecyclerView.Adapter adapter = new ScheduleAdapter(getActivity(), events);
+    RecyclerView.Adapter adapter =
+        new ScheduleAdapter(getActivity(), events, (MainActivity) getActivity());
     eventsRecyclerView.setAdapter(adapter);
   }
 }

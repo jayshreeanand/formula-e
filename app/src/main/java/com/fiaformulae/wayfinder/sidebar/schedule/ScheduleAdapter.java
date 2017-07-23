@@ -10,16 +10,19 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import com.fiaformulae.wayfinder.R;
 import com.fiaformulae.wayfinder.models.Event;
+import com.fiaformulae.wayfinder.models.Place;
 import com.fiaformulae.wayfinder.utils.DateUtils;
 import java.util.ArrayList;
 
 public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.ViewHolder> {
   private ArrayList<Event> events;
   private Context context;
+  private EventClickListener eventClickListener;
 
-  public ScheduleAdapter(Context context, ArrayList<Event> events) {
+  public ScheduleAdapter(Context context, ArrayList<Event> events, EventClickListener listener) {
     this.context = context;
     this.events = events;
+    this.eventClickListener = listener;
   }
 
   @Override public ScheduleAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -41,13 +44,18 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.ViewHo
 
     holder.getView().setOnClickListener(new View.OnClickListener() {
       @Override public void onClick(View view) {
-
+        if (event.getPlace() == null) return;
+        eventClickListener.onEventClick(event.getPlace());
       }
     });
   }
 
   @Override public int getItemCount() {
     return events.size();
+  }
+
+  public interface EventClickListener {
+    public void onEventClick(Place place);
   }
 
   public static class ViewHolder extends RecyclerView.ViewHolder {

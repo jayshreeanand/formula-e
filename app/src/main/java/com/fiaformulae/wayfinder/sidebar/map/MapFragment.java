@@ -29,6 +29,7 @@ import com.mapbox.mapboxsdk.maps.OnMapReadyCallback;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.fiaformulae.wayfinder.AppConstants.PLACES;
 import static com.fiaformulae.wayfinder.AppConstants.PLACE_FOOD;
 import static com.fiaformulae.wayfinder.AppConstants.PLACE_GAMING;
 import static com.fiaformulae.wayfinder.AppConstants.PLACE_WASHROOM;
@@ -46,6 +47,16 @@ public class MapFragment extends Fragment implements MapContract.View, OnMapRead
   private ArrayList<Place> places;
   private boolean isFabOpen = false;
   private ArrayList<Marker> markers = new ArrayList<>();
+
+  public static MapFragment newInstance(ArrayList<Place> markerPlaces) {
+    MapFragment fragment = new MapFragment();
+    if (markerPlaces != null) {
+      Bundle args = new Bundle();
+      args.putSerializable(PLACES, markerPlaces);
+      fragment.setArguments(args);
+    }
+    return fragment;
+  }
 
   @Nullable @Override
   public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
@@ -108,6 +119,10 @@ public class MapFragment extends Fragment implements MapContract.View, OnMapRead
     this.mapboxMap = mapboxMap;
     new DrawTrackGeoJson().execute();
     new DrawEVillageGeoJson().execute();
+    if (getArguments() != null && getArguments().getSerializable(PLACES) != null) {
+      ArrayList<Place> markerPlaces = (ArrayList<Place>) getArguments().getSerializable(PLACES);
+      showMarkers(markerPlaces);
+    }
   }
 
   @Override public void showProgressBar() {
@@ -132,21 +147,21 @@ public class MapFragment extends Fragment implements MapContract.View, OnMapRead
 
   @OnClick(R.id.fab_washroom) void onFabWashroomClick() {
     ArrayList<Place> washrooms = presenter.getPlacesContainingString(places, PLACE_WASHROOM);
-    showMapMarkers(washrooms);
+    showMarkers(washrooms);
   }
 
   @OnClick(R.id.fab_game) void onFabGameClick() {
     ArrayList<Place> gameLocations = presenter.getPlacesContainingString(places, PLACE_GAMING);
-    showMapMarkers(gameLocations);
+    showMarkers(gameLocations);
   }
 
   @OnClick(R.id.fab_food) void onFabFoodClick() {
     ArrayList<Place> foodBooths = presenter.getPlacesContainingString(places, PLACE_FOOD);
-    showMapMarkers(foodBooths);
+    showMarkers(foodBooths);
   }
 
-  private void showMapMarkers(ArrayList<Place> placeList) {
-    clearMapMarkers();
+  private void showMarkers(ArrayList<Place> placeList) {
+    clearMarkers();
     for (Place place : placeList) {
       Marker marker = mapboxMap.addMarker(
           new MarkerOptions().position(new LatLng(place.getLatitude(), place.getLongitude()))
@@ -155,7 +170,7 @@ public class MapFragment extends Fragment implements MapContract.View, OnMapRead
     }
   }
 
-  private void clearMapMarkers() {
+  private void clearMarkers() {
     for (Marker marker : markers) {
       mapboxMap.removeMarker(marker);
     }
@@ -173,7 +188,7 @@ public class MapFragment extends Fragment implements MapContract.View, OnMapRead
 
   private void collapseFabMenu() {
     isFabOpen = false;
-    clearMapMarkers();
+    clearMarkers();
     fab.setImageResource(R.drawable.ic_fab_expand);
     fab.setBackgroundTintList(
         ColorStateList.valueOf(ContextCompat.getColor(getActivity(), R.color.colorAccent)));

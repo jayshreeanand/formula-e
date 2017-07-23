@@ -14,19 +14,23 @@ import android.view.MenuItem;
 import android.view.View;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import com.fiaformulae.wayfinder.models.Place;
 import com.fiaformulae.wayfinder.sidebar.faq.FaqFragment;
 import com.fiaformulae.wayfinder.sidebar.home.HomeFragment;
 import com.fiaformulae.wayfinder.sidebar.map.MapFragment;
+import com.fiaformulae.wayfinder.sidebar.schedule.ScheduleAdapter;
 import com.fiaformulae.wayfinder.sidebar.schedule.ScheduleFragment;
 import com.fiaformulae.wayfinder.sidebar.teams.TeamsFragment;
 import com.fiaformulae.wayfinder.sidebar.weather.WeatherFragment;
+import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements ScheduleAdapter.EventClickListener {
   @BindView(R.id.drawer_layout) DrawerLayout drawerLayout;
   @BindView(R.id.toolbar) Toolbar toolbar;
   @BindView(R.id.navigation_view) NavigationView navigationView;
   private ActionBarDrawerToggle drawerToggle;
   private String title;
+  private ArrayList<Place> mapMarkerPlaces;
 
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -91,7 +95,8 @@ public class MainActivity extends AppCompatActivity {
     Fragment fragment = null;
     switch (itemId) {
       case R.id.wayfinder:
-        fragment = new MapFragment();
+        fragment = MapFragment.newInstance(mapMarkerPlaces);
+        mapMarkerPlaces = null;
         title = getString(R.string.wayfinder);
         break;
       case R.id.raceday_schedule:
@@ -117,7 +122,6 @@ public class MainActivity extends AppCompatActivity {
     }
     toolbar.setTitle(title);
     FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-    //transaction.setCustomAnimations(R.anim.slide_in, R.anim.slide_out);
     transaction.replace(R.id.content_frame, fragment).commit();
   }
 
@@ -127,5 +131,11 @@ public class MainActivity extends AppCompatActivity {
       selectItem(item.getItemId());
       return true;
     });
+  }
+
+  @Override public void onEventClick(Place place) {
+    mapMarkerPlaces = new ArrayList<>();
+    mapMarkerPlaces.add(place);
+    openWayFinder();
   }
 }

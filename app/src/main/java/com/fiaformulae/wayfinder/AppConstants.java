@@ -4,4 +4,5 @@ public class AppConstants {
   public static final String PLACE_GAMING = "gaming";
   public static final String PLACE_FOOD = "food";
   public static final String PLACE_WASHROOM = "washroom";
+  public static final String PLACES = "places";
 }
