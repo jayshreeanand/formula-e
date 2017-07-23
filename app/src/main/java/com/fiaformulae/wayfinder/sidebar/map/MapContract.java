@@ -16,5 +16,7 @@ public interface MapContract {
     void onDestroy();
 
     void getPlaces();
+
+    ArrayList<Place> getPlacesContainingString(ArrayList<Place> places, String name);
   }
 }

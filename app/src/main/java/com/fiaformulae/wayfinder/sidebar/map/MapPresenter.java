@@ -31,6 +31,17 @@ public class MapPresenter implements MapContract.Presenter {
         observable.subscribe(this::onGetPlacesSuccess, this::onGetPlacesFailure));
   }
 
+  @Override
+  public ArrayList<Place> getPlacesContainingString(ArrayList<Place> places, String name) {
+    ArrayList<Place> filteredPlaces = new ArrayList<>();
+    for (Place place : places) {
+      if (place.getName().toLowerCase().contains(name)) {
+        filteredPlaces.add(place);
+      }
+    }
+    return filteredPlaces;
+  }
+
   private void onGetPlacesSuccess(ArrayList<Place> places) {
     view.hideProgressBar();
     view.onGettingPlaces(places);
