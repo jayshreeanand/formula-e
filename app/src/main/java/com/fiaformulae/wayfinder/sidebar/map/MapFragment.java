@@ -44,7 +44,7 @@ public class MapFragment extends Fragment implements MapContract.View, OnMapRead
     ButterKnife.bind(this, view);
     ((MainActivity) getActivity()).showToolbar();
     presenter = new MapPresenter(this);
-
+    presenter.getPlaces();
     initializeMap(savedInstanceState);
   }
 
