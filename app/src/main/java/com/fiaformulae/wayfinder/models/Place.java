@@ -1,18 +1,26 @@
 package com.fiaformulae.wayfinder.models;
 
+import com.activeandroid.Model;
+import com.activeandroid.annotation.Column;
+import com.activeandroid.annotation.Table;
 import com.google.gson.annotations.SerializedName;
 import java.io.Serializable;
 
-public class Place implements Serializable {
-  @SerializedName("id") int id;
-  @SerializedName("name") String name;
-  @SerializedName("description") String description;
-  @SerializedName("latitude") double latitude;
-  @SerializedName("longitude") double longitude;
-  @SerializedName("kind") String kind;
+@Table(name = "Places") public class Place extends Model implements Serializable {
+  @Column(name = "remote_id", unique = true, onUniqueConflict = Column.ConflictAction.REPLACE)
+  @SerializedName("id") int remoteId;
+  @Column(name = "Name") @SerializedName("name") String name;
+  @Column(name = "Description") @SerializedName("description") String description;
+  @Column(name = "Latitude") @SerializedName("latitude") double latitude;
+  @Column(name = "Longitude") @SerializedName("longitude") double longitude;
+  @Column(name = "Kind") @SerializedName("kind") String kind;
 
-  public int getId() {
-    return id;
+  public Place() {
+    super();
+  }
+
+  public int getRemoteId() {
+    return remoteId;
   }
 
   public String getName() {
