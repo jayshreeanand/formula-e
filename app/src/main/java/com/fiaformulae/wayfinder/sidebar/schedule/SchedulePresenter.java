@@ -1,6 +1,7 @@
 package com.fiaformulae.wayfinder.sidebar.schedule;
 
 import android.util.Log;
+import com.activeandroid.Model;
 import com.activeandroid.query.Delete;
 import com.activeandroid.query.Select;
 import com.fiaformulae.wayfinder.models.Event;
@@ -43,9 +44,7 @@ public class SchedulePresenter implements ScheduleContract.Presenter {
     view.hideProgressBar();
     Collections.sort(events);
     new Delete().from(Event.class).execute();
-    for (Event event : events) {
-      event.save();
-    }
+    events.forEach(Model::save);
     view.onGettingEvents(events);
   }
 

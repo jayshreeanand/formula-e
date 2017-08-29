@@ -1,6 +1,7 @@
 package com.fiaformulae.wayfinder.sidebar.map;
 
 import android.util.Log;
+import com.activeandroid.Model;
 import com.activeandroid.query.Delete;
 import com.activeandroid.query.Select;
 import com.fiaformulae.wayfinder.models.Place;
@@ -51,9 +52,7 @@ public class MapPresenter implements MapContract.Presenter {
   private void onGetPlacesSuccess(ArrayList<Place> places) {
     view.hideProgressBar();
     new Delete().from(Place.class).execute();
-    for (Place place : places) {
-      place.save();
-    }
+    places.forEach(Model::save);
     view.onGettingPlaces(places);
   }
 
