@@ -44,7 +44,7 @@ public class MapFragment extends Fragment implements MapContract.View, OnMapRead
   @BindView(R.id.fab_food) FloatingActionButton fabFood;
   private MapContract.Presenter presenter;
   private MapboxMap mapboxMap;
-  private ArrayList<Place> places;
+  private List<Place> places;
   private boolean isFabOpen = false;
   private ArrayList<Marker> markers = new ArrayList<>();
 
@@ -70,6 +70,7 @@ public class MapFragment extends Fragment implements MapContract.View, OnMapRead
     ButterKnife.bind(this, view);
     ((MainActivity) getActivity()).showToolbar();
     presenter = new MapPresenter(this);
+    places = presenter.getPlacesFromDb();
     presenter.getPlaces();
     initializeMap(savedInstanceState);
   }
@@ -133,7 +134,7 @@ public class MapFragment extends Fragment implements MapContract.View, OnMapRead
     progressBar.setVisibility(View.GONE);
   }
 
-  @Override public void onGettingPlaces(ArrayList<Place> places) {
+  @Override public void onGettingPlaces(List<Place> places) {
     this.places = places;
   }
 
