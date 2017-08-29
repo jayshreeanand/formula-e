@@ -1,7 +1,6 @@
 package com.fiaformulae.wayfinder.sidebar.teams;
 
 import android.util.Log;
-import com.activeandroid.Model;
 import com.activeandroid.query.Delete;
 import com.activeandroid.query.Select;
 import com.fiaformulae.wayfinder.models.Team;
@@ -42,7 +41,9 @@ public class TeamsPresenter implements TeamsContract.Presenter {
   private void onGetTeamsSuccess(ArrayList<Team> teams) {
     view.hideProgressBar();
     new Delete().from(Team.class).execute();
-    teams.forEach(Model::save);
+    for (Team team : teams) {
+      team.save();
+    }
     view.onGettingTeams(teams);
   }
 
