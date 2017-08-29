@@ -2,6 +2,7 @@ package com.fiaformulae.wayfinder.sidebar.schedule;
 
 import com.fiaformulae.wayfinder.models.Event;
 import java.util.ArrayList;
+import java.util.List;
 
 public interface ScheduleContract {
   public interface View {
@@ -16,5 +17,7 @@ public interface ScheduleContract {
     void onDestroy();
 
     void getEvents();
+
+    List<Event> getEventsFromDb();
   }
 }
