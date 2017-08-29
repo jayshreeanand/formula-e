@@ -2,6 +2,7 @@ package com.fiaformulae.wayfinder.sidebar.teams;
 
 import com.fiaformulae.wayfinder.models.Team;
 import java.util.ArrayList;
+import java.util.List;
 
 public interface TeamsContract {
   public interface View {
@@ -16,5 +17,7 @@ public interface TeamsContract {
     void onDestroy();
 
     void getTeams();
+
+    List<Team> getTeamsFromDb();
   }
 }
