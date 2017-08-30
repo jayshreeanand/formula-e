@@ -2,6 +2,7 @@ package com.fiaformulae.wayfinder.sidebar.map;
 
 import com.fiaformulae.wayfinder.models.Place;
 import java.util.ArrayList;
+import java.util.List;
 
 public interface MapContract {
   public interface View {
@@ -9,7 +10,7 @@ public interface MapContract {
 
     void hideProgressBar();
 
-    void onGettingPlaces(ArrayList<Place> places);
+    void onGettingPlaces(List<Place> places);
   }
 
   public interface Presenter {
@@ -17,6 +18,8 @@ public interface MapContract {
 
     void getPlaces();
 
-    ArrayList<Place> getPlacesContainingString(ArrayList<Place> places, String name);
+    List<Place> getPlacesFromDb();
+
+    ArrayList<Place> getPlacesContainingString(List<Place> places, String name);
   }
 }

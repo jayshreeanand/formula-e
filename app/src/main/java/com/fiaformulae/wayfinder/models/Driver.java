@@ -1,19 +1,28 @@
 package com.fiaformulae.wayfinder.models;
 
+import com.activeandroid.Model;
+import com.activeandroid.annotation.Column;
+import com.activeandroid.annotation.Table;
 import com.google.gson.JsonObject;
 import com.google.gson.annotations.SerializedName;
 import java.io.Serializable;
 
-public class Driver implements Serializable {
-  @SerializedName("id") int id;
-  @SerializedName("name") String name;
-  @SerializedName("description") String description;
-  @SerializedName("display_picture") Image image;
-  @SerializedName("statistics") JsonObject details;
+@Table(name = "Drivers") public class Driver extends Model implements Serializable {
+  @Column(name = "remote_id", unique = true, onUniqueConflict = Column.ConflictAction.REPLACE)
+  @SerializedName("id") int remoteId;
+  @Column(name = "Name") @SerializedName("name") String name;
+  @Column(name = "Description") @SerializedName("description") String description;
+  @Column(name = "Image") @SerializedName("display_picture") Image image;
+  @Column(name = "Details") @SerializedName("statistics") JsonObject details;
+  @Column(name = "Team", onUpdate = Column.ForeignKeyAction.CASCADE, onDelete = Column.ForeignKeyAction.CASCADE)
   @SerializedName("team") Team team;
 
-  public int getId() {
-    return id;
+  public Driver() {
+    super();
+  }
+
+  public int getRemoteId() {
+    return remoteId;
   }
 
   public String getName() {

@@ -1,10 +1,9 @@
 package com.fiaformulae.wayfinder;
 
-import android.app.Application;
 import android.content.Context;
 import timber.log.Timber;
 
-public class Wayfinder extends Application {
+public class Wayfinder extends com.activeandroid.app.Application {
   private static Context context;
 
   public static String getBaseUrl() {

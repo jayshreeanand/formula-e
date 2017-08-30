@@ -12,14 +12,14 @@ import com.fiaformulae.wayfinder.R;
 import com.fiaformulae.wayfinder.models.Event;
 import com.fiaformulae.wayfinder.models.Place;
 import com.fiaformulae.wayfinder.utils.DateUtils;
-import java.util.ArrayList;
+import java.util.List;
 
 public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.ViewHolder> {
-  private ArrayList<Event> events;
+  private List<Event> events;
   private Context context;
   private EventClickListener eventClickListener;
 
-  public ScheduleAdapter(Context context, ArrayList<Event> events, EventClickListener listener) {
+  public ScheduleAdapter(Context context, List<Event> events, EventClickListener listener) {
     this.context = context;
     this.events = events;
     this.eventClickListener = listener;
@@ -42,11 +42,9 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.ViewHo
       holder.placeNameView.setText(event.getPlace().getName());
     }
 
-    holder.getView().setOnClickListener(new View.OnClickListener() {
-      @Override public void onClick(View view) {
-        if (event.getPlace() == null) return;
-        eventClickListener.onEventClick(event.getPlace());
-      }
+    holder.getView().setOnClickListener(view -> {
+      if (event.getPlace() == null) return;
+      eventClickListener.onEventClick(event.getPlace());
     });
   }
 
