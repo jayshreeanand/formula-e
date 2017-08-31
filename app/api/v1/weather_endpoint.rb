@@ -8,7 +8,6 @@ module V1
       end
       get '/' do
         coordinates = "#{params[:latitude]},#{params[:longitude]}"
-        byebug
         barometer = Barometer.new(coordinates)
         weather = barometer.measure
 
