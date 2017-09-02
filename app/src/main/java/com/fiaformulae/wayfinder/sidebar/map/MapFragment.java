@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -19,20 +20,28 @@ import com.fiaformulae.wayfinder.R;
 import com.fiaformulae.wayfinder.models.Place;
 import com.fiaformulae.wayfinder.utils.GeoJsonUtils;
 import com.mapbox.mapboxsdk.Mapbox;
+import com.mapbox.mapboxsdk.annotations.Icon;
+import com.mapbox.mapboxsdk.annotations.IconFactory;
 import com.mapbox.mapboxsdk.annotations.Marker;
 import com.mapbox.mapboxsdk.annotations.MarkerOptions;
 import com.mapbox.mapboxsdk.annotations.PolylineOptions;
+import com.mapbox.mapboxsdk.camera.CameraPosition;
+import com.mapbox.mapboxsdk.camera.CameraUpdateFactory;
 import com.mapbox.mapboxsdk.geometry.LatLng;
+import com.mapbox.mapboxsdk.geometry.LatLngBounds;
 import com.mapbox.mapboxsdk.maps.MapView;
 import com.mapbox.mapboxsdk.maps.MapboxMap;
 import com.mapbox.mapboxsdk.maps.OnMapReadyCallback;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.fiaformulae.wayfinder.AppConstants.CURRENT_LOCATION;
 import static com.fiaformulae.wayfinder.AppConstants.PLACES;
 import static com.fiaformulae.wayfinder.AppConstants.PLACE_FOOD;
 import static com.fiaformulae.wayfinder.AppConstants.PLACE_GAMING;
 import static com.fiaformulae.wayfinder.AppConstants.PLACE_WASHROOM;
+import static com.fiaformulae.wayfinder.AppConstants.USER_LATITUDE;
+import static com.fiaformulae.wayfinder.AppConstants.USER_LONGITUDE;
 
 public class MapFragment extends Fragment implements MapContract.View, OnMapReadyCallback {
   private static final String TAG = "MapFragment";
@@ -42,11 +51,13 @@ public class MapFragment extends Fragment implements MapContract.View, OnMapRead
   @BindView(R.id.fab_washroom) FloatingActionButton fabWashroom;
   @BindView(R.id.fab_game) FloatingActionButton fabGame;
   @BindView(R.id.fab_food) FloatingActionButton fabFood;
+  @BindView(R.id.fab_location) FloatingActionButton fabLocation;
   private MapContract.Presenter presenter;
   private MapboxMap mapboxMap;
   private List<Place> places;
   private boolean isFabOpen = false;
   private ArrayList<Marker> markers = new ArrayList<>();
+  private Place userLocation = new Place();
 
   public static MapFragment newInstance(ArrayList<Place> markerPlaces) {
     MapFragment fragment = new MapFragment();
@@ -83,6 +94,7 @@ public class MapFragment extends Fragment implements MapContract.View, OnMapRead
   @Override public void onResume() {
     super.onResume();
     mapView.onResume();
+    setCurrentLocation();
   }
 
   @Override public void onPause() {
@@ -124,6 +136,10 @@ public class MapFragment extends Fragment implements MapContract.View, OnMapRead
       ArrayList<Place> markerPlaces = (ArrayList<Place>) getArguments().getSerializable(PLACES);
       showMarkers(markerPlaces);
     }
+    mapboxMap.setOnMarkerClickListener(marker -> {
+      Toast.makeText(getContext(), marker.getTitle(), Toast.LENGTH_SHORT).show();
+      return true;
+    });
   }
 
   @Override public void showProgressBar() {
@@ -161,14 +177,37 @@ public class MapFragment extends Fragment implements MapContract.View, OnMapRead
     showMarkers(foodBooths);
   }
 
+  @OnClick(R.id.fab_location) void onFabLocationClick() {
+    IconFactory iconFactory = IconFactory.getInstance(getContext());
+    Icon icon = iconFactory.fromResource(R.drawable.ic_food);
+    Marker marker = mapboxMap.addMarker(new MarkerOptions().position(
+        new LatLng(userLocation.getLatitude(), userLocation.getLongitude()))
+        .title(userLocation.getName())); // .icon(icon)
+    markers.add(marker);
+    CameraPosition position = new CameraPosition.Builder().target(
+        new LatLng(userLocation.getLatitude(),
+            userLocation.getLongitude())) // Sets the new camera position
+        .tilt(30).build();
+
+    mapboxMap.animateCamera(CameraUpdateFactory.newCameraPosition(position), 2000);
+  }
+
   private void showMarkers(ArrayList<Place> placeList) {
     clearMarkers();
+    ArrayList<LatLng> locations = new ArrayList<>();
     for (Place place : placeList) {
-      Marker marker = mapboxMap.addMarker(
-          new MarkerOptions().position(new LatLng(place.getLatitude(), place.getLongitude()))
-              .title(place.getName()));
+      LatLng location = new LatLng(place.getLatitude(), place.getLongitude());
+      locations.add(location);
+      Marker marker =
+          mapboxMap.addMarker(new MarkerOptions().position(location).title(place.getName()));
       markers.add(marker);
     }
+    LatLngBounds.Builder latLngBoundsBuilder = new LatLngBounds.Builder();
+    for (LatLng location : locations) {
+      latLngBoundsBuilder.include(location);
+    }
+    LatLngBounds latLngBounds = latLngBoundsBuilder.build();
+    mapboxMap.easeCamera(CameraUpdateFactory.newLatLngBounds(latLngBounds, 100), 2000);
   }
 
   private void clearMarkers() {
@@ -196,6 +235,12 @@ public class MapFragment extends Fragment implements MapContract.View, OnMapRead
     fabWashroom.animate().translationX(0);
     fabGame.animate().translationX(0);
     fabFood.animate().translationX(0);
+  }
+
+  private void setCurrentLocation() {
+    userLocation.setLatitude(USER_LATITUDE);
+    userLocation.setLongitude(USER_LONGITUDE);
+    userLocation.setName(CURRENT_LOCATION);
   }
 
   private class DrawTrackGeoJson extends AsyncTask<Void, Void, List<LatLng>> {

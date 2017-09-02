@@ -27,6 +27,10 @@ import java.io.Serializable;
     return name;
   }
 
+  public void setName(String name) {
+    this.name = name;
+  }
+
   public String getDescription() {
     return description;
   }
@@ -35,8 +39,16 @@ import java.io.Serializable;
     return latitude;
   }
 
+  public void setLatitude(double latitude) {
+    this.latitude = latitude;
+  }
+
   public double getLongitude() {
     return longitude;
+  }
+
+  public void setLongitude(double longitude) {
+    this.longitude = longitude;
   }
 
   public String getKind() {
