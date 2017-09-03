@@ -148,7 +148,7 @@ public class Map {
           new MarkerOptions().position(place.getLatLng()).title(place.getName()));
       markers.add(marker);
     }
-    fitCameraWithinBounds(locations);
+    if (locations.size() > 1) fitCameraWithinBounds(locations);
   }
 
   public void fitCameraWithinBounds(ArrayList<LatLng> locations) {
