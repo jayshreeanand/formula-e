@@ -13,6 +13,7 @@ import rx.observables.ConnectableObservable;
 import rx.subscriptions.CompositeSubscription;
 
 public class TeamsPresenter implements TeamsContract.Presenter {
+  public static final String TAG = "TeamsPresenter";
   private TeamsContract.View view;
   private CompositeSubscription compositeSubscription;
   private WayfinderApi wayfinderApi;
@@ -67,8 +68,7 @@ public class TeamsPresenter implements TeamsContract.Presenter {
     for (Driver driver : drivers) {
       driver.save();
     }
-    List<Team> teams = new Select().from(Team.class).orderBy("Name ASC").execute();
-    view.onGettingTeams(teams);
+    view.onGettingTeams(getTeamsFromDb());
   }
 
   private void onGetDriversFailure(Throwable throwable) {

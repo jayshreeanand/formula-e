@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TeamsFragment extends Fragment implements TeamsContract.View {
+  public static final String TAG = "TeamsFragment";
   TeamsContract.Presenter presenter;
   @BindView(R.id.progress_bar) ProgressBar progressBar;
   @BindView(R.id.team_list) RecyclerView teamsRecyclerView;
