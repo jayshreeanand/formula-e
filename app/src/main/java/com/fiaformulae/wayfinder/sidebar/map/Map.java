@@ -102,8 +102,8 @@ public class Map {
           return;
         }
         currentRoute = response.body().getRoutes().get(0);
-        Toast.makeText(context, "Distance: " + currentRoute.getDistance(), Toast.LENGTH_SHORT)
-            .show();
+        Toast.makeText(context, "Distance: " + currentRoute.getDistance() + " metres",
+            Toast.LENGTH_LONG).show();
         drawRoute(currentRoute);
       }
 
