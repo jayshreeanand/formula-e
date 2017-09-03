@@ -54,7 +54,7 @@ public class TeamsFragment extends Fragment implements TeamsContract.View {
     progressBar.setVisibility(View.GONE);
   }
 
-  @Override public void onGettingTeams(ArrayList<Team> teams) {
+  @Override public void onGettingTeams(List<Team> teams) {
     setAdapter(teams);
   }
 

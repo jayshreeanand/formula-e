@@ -3,6 +3,7 @@ package com.fiaformulae.wayfinder.sidebar.teams;
 import android.util.Log;
 import com.activeandroid.query.Delete;
 import com.activeandroid.query.Select;
+import com.fiaformulae.wayfinder.models.Driver;
 import com.fiaformulae.wayfinder.models.Team;
 import com.fiaformulae.wayfinder.network.WayfinderApi;
 import com.fiaformulae.wayfinder.utils.RxUtils;
@@ -44,11 +45,34 @@ public class TeamsPresenter implements TeamsContract.Presenter {
     for (Team team : teams) {
       team.save();
     }
-    view.onGettingTeams(teams);
+    getDrivers();
   }
 
   private void onGetTeamsFailure(Throwable throwable) {
     view.hideProgressBar();
     Log.d("Error", "Failed to get teams - " + throwable.getMessage());
+  }
+
+  private void getDrivers() {
+    view.showProgressBar();
+    ConnectableObservable<ArrayList<Driver>> observable = wayfinderApi.getDrivers();
+    compositeSubscription.add(observable.connect());
+    compositeSubscription.add(
+        observable.subscribe(this::onGetDriversSuccess, this::onGetDriversFailure));
+  }
+
+  private void onGetDriversSuccess(ArrayList<Driver> drivers) {
+    view.hideProgressBar();
+    new Delete().from(Driver.class).execute();
+    for (Driver driver : drivers) {
+      driver.save();
+    }
+    List<Team> teams = new Select().from(Team.class).orderBy("Name ASC").execute();
+    view.onGettingTeams(teams);
+  }
+
+  private void onGetDriversFailure(Throwable throwable) {
+    view.hideProgressBar();
+    Log.d("Error", "Failed to get drivers - " + throwable.getMessage());
   }
 }
