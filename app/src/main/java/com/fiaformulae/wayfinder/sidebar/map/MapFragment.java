@@ -219,21 +219,22 @@ public class MapFragment extends Fragment implements MapContract.View, OnMapRead
     getRoute(origin, destination);
   }
 
-  @OnClick(R.id.fab_location) void showMarkerOnUserLocation() {
+  @OnClick(R.id.fab_location) void onFabLocationClick() {
+    showMarkerOnUserLocation();
+    animateCameraToPosition(userLocation.getLatLng());
+  }
+
+  private void showMarkerOnUserLocation() {
     IconFactory iconFactory = IconFactory.getInstance(getContext());
     Icon icon = iconFactory.fromResource(R.drawable.ic_marker_blue);
     Marker marker = mapboxMap.addMarker(new MarkerOptions().position(userLocation.getLatLng())
         .title(userLocation.getName())
         .icon(icon));
     markers.add(marker);
-
-    animateCameraToPosition(userLocation.getLatLng());
   }
 
   private void animateCameraToPosition(LatLng latLng) {
-    CameraPosition position =
-        new CameraPosition.Builder().target(latLng) // Sets the new camera position
-            .tilt(30).build();
+    CameraPosition position = new CameraPosition.Builder().target(latLng).tilt(30).build();
     mapboxMap.animateCamera(CameraUpdateFactory.newCameraPosition(position), 2000);
   }
 
@@ -252,14 +253,11 @@ public class MapFragment extends Fragment implements MapContract.View, OnMapRead
       @Override
       public void onResponse(Call<DirectionsResponse> call, Response<DirectionsResponse> response) {
         Log.d(TAG, call.request().url().toString());
-        Log.d(TAG, "Response code: " + response.code());
-
         if (response.body() == null || response.body().getRoutes().size() < 1) {
           Log.e(TAG, "No routes found, make sure you set the right user and access token.");
           return;
         }
         currentRoute = response.body().getRoutes().get(0);
-        Log.d(TAG, "Distance: " + currentRoute.getDistance());
         Toast.makeText(getContext(), "Distance: " + currentRoute.getDistance(), Toast.LENGTH_SHORT)
             .show();
         drawRoute(currentRoute);
@@ -286,6 +284,10 @@ public class MapFragment extends Fragment implements MapContract.View, OnMapRead
     currentRoutePolyline = mapboxMap.addPolyline(
         new PolylineOptions().add(points).color(Color.parseColor("#007cbf")).width(3));
     showMarkerOnUserLocation();
+    ArrayList<LatLng> locations = new ArrayList<>();
+    locations.add(userLocation.getLatLng());
+    locations.add(currentMarker.getPosition());
+    fitCameraWithinBounds(locations);
   }
 
   private void showMarkers(ArrayList<Place> placeList) {
@@ -297,12 +299,16 @@ public class MapFragment extends Fragment implements MapContract.View, OnMapRead
           new MarkerOptions().position(place.getLatLng()).title(place.getName()));
       markers.add(marker);
     }
+    fitCameraWithinBounds(locations);
+  }
+
+  private void fitCameraWithinBounds(ArrayList<LatLng> locations) {
     LatLngBounds.Builder latLngBoundsBuilder = new LatLngBounds.Builder();
     for (LatLng location : locations) {
       latLngBoundsBuilder.include(location);
     }
     LatLngBounds latLngBounds = latLngBoundsBuilder.build();
-    mapboxMap.easeCamera(CameraUpdateFactory.newLatLngBounds(latLngBounds, 100), 2000);
+    mapboxMap.easeCamera(CameraUpdateFactory.newLatLngBounds(latLngBounds, 250), 2000);
   }
 
   private void clearMarkers() {
