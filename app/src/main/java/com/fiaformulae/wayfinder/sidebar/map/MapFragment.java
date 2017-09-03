@@ -162,6 +162,7 @@ public class MapFragment extends Fragment implements MapContract.View, OnMapRead
       showMarkers(markerPlaces);
     }
     mapboxMap.setOnMarkerClickListener(marker -> {
+      animateCameraToPosition(marker.getPosition());
       currentMarker = marker;
       locationText.setText(marker.getTitle());
       directionButton.setVisibility(View.VISIBLE);
@@ -220,14 +221,19 @@ public class MapFragment extends Fragment implements MapContract.View, OnMapRead
 
   @OnClick(R.id.fab_location) void showMarkerOnUserLocation() {
     IconFactory iconFactory = IconFactory.getInstance(getContext());
-    Icon icon = iconFactory.fromResource(R.drawable.ic_food);
+    Icon icon = iconFactory.fromResource(R.drawable.ic_marker_blue);
     Marker marker = mapboxMap.addMarker(new MarkerOptions().position(userLocation.getLatLng())
-        .title(userLocation.getName())); // .icon(icon)
+        .title(userLocation.getName())
+        .icon(icon));
     markers.add(marker);
-    CameraPosition position = new CameraPosition.Builder().target(
-        userLocation.getLatLng()) // Sets the new camera position
-        .tilt(30).build();
 
+    animateCameraToPosition(userLocation.getLatLng());
+  }
+
+  private void animateCameraToPosition(LatLng latLng) {
+    CameraPosition position =
+        new CameraPosition.Builder().target(latLng) // Sets the new camera position
+            .tilt(30).build();
     mapboxMap.animateCamera(CameraUpdateFactory.newCameraPosition(position), 2000);
   }
 
@@ -267,6 +273,7 @@ public class MapFragment extends Fragment implements MapContract.View, OnMapRead
   }
 
   private void drawRoute(DirectionsRoute route) {
+    slidingLayout.setPanelState(SlidingUpPanelLayout.PanelState.HIDDEN);
     // Convert LineString coordinates into LatLng[]
     LineString lineString = LineString.fromPolyline(route.getGeometry(), PRECISION_6);
     List<Position> coordinates = lineString.getCoordinates();
@@ -277,7 +284,7 @@ public class MapFragment extends Fragment implements MapContract.View, OnMapRead
 
     if (currentRoutePolyline != null) mapboxMap.removePolyline(currentRoutePolyline);
     currentRoutePolyline = mapboxMap.addPolyline(
-        new PolylineOptions().add(points).color(Color.parseColor("#009688")).width(5));
+        new PolylineOptions().add(points).color(Color.parseColor("#007cbf")).width(3));
     showMarkerOnUserLocation();
   }
 
