@@ -35,7 +35,9 @@ public class TeamsAdapter extends RecyclerView.Adapter<TeamsAdapter.ViewHolder> 
     Team team = teams.get(position);
     holder.teamNameView.setText(team.getName());
     holder.teamDescriptionView.setText(team.getDescription());
-    Glide.with(context).load(team.getImage().getDefault()).into(holder.teamImageView);
+    if (team.getImage() != null) {
+      Glide.with(context).load(team.getImage().getDefault()).into(holder.teamImageView);
+    }
 
     holder.getView().setOnClickListener(view -> {
       context.startActivity(new Intent(context, DriversActivity.class));
