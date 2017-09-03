@@ -14,13 +14,13 @@ import com.bumptech.glide.Glide;
 import com.fiaformulae.wayfinder.R;
 import com.fiaformulae.wayfinder.drivers.DriversActivity;
 import com.fiaformulae.wayfinder.models.Team;
-import java.util.ArrayList;
+import java.util.List;
 
 public class TeamsAdapter extends RecyclerView.Adapter<TeamsAdapter.ViewHolder> {
-  private ArrayList<Team> teams;
+  private List<Team> teams;
   private Context context;
 
-  public TeamsAdapter(Context context, ArrayList<Team> teams) {
+  public TeamsAdapter(Context context, List<Team> teams) {
     this.context = context;
     this.teams = teams;
   }
@@ -37,10 +37,8 @@ public class TeamsAdapter extends RecyclerView.Adapter<TeamsAdapter.ViewHolder> 
     holder.teamDescriptionView.setText(team.getDescription());
     Glide.with(context).load(team.getImage().getDefault()).into(holder.teamImageView);
 
-    holder.getView().setOnClickListener(new View.OnClickListener() {
-      @Override public void onClick(View view) {
-        context.startActivity(new Intent(context, DriversActivity.class));
-      }
+    holder.getView().setOnClickListener(view -> {
+      context.startActivity(new Intent(context, DriversActivity.class));
     });
   }
 

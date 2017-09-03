@@ -15,6 +15,7 @@ import com.fiaformulae.wayfinder.MainActivity;
 import com.fiaformulae.wayfinder.R;
 import com.fiaformulae.wayfinder.models.Event;
 import java.util.ArrayList;
+import java.util.List;
 
 public class ScheduleFragment extends Fragment implements ScheduleContract.View {
   ScheduleContract.Presenter presenter;
@@ -36,6 +37,7 @@ public class ScheduleFragment extends Fragment implements ScheduleContract.View 
     setAdapter(new ArrayList<>());
 
     presenter = new SchedulePresenter(this);
+    setAdapter(presenter.getEventsFromDb());
     presenter.getEvents();
   }
 
@@ -56,7 +58,7 @@ public class ScheduleFragment extends Fragment implements ScheduleContract.View 
     setAdapter(events);
   }
 
-  private void setAdapter(ArrayList<Event> events) {
+  private void setAdapter(List<Event> events) {
     RecyclerView.Adapter adapter =
         new ScheduleAdapter(getActivity(), events, (MainActivity) getActivity());
     eventsRecyclerView.setAdapter(adapter);

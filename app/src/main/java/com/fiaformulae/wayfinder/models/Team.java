@@ -1,22 +1,31 @@
 package com.fiaformulae.wayfinder.models;
 
+import com.activeandroid.Model;
+import com.activeandroid.annotation.Column;
+import com.activeandroid.annotation.Table;
 import com.google.gson.JsonObject;
 import com.google.gson.annotations.SerializedName;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 
-public class Team implements Serializable {
-  @SerializedName("id") int id;
-  @SerializedName("name") String name;
-  @SerializedName("description") String description;
-  @SerializedName("display_picture") Image image;
-  @SerializedName("drivers") ArrayList<Driver> drivers;
-  @SerializedName("logo") Image logo;
-  @SerializedName("flag") Image flag;
-  @SerializedName("statistics") JsonObject details;
+@Table(name = "Teams") public class Team extends Model implements Serializable {
+  @Column(name = "remote_id", unique = true, onUniqueConflict = Column.ConflictAction.REPLACE)
+  @SerializedName("id") int remoteId;
+  @Column(name = "Name") @SerializedName("name") String name;
+  @Column(name = "Description") @SerializedName("description") String description;
+  @Column(name = "Image") @SerializedName("display_picture") Image image;
+  @Column(name = "Drivers") @SerializedName("drivers") ArrayList<Driver> drivers;
+  @Column(name = "Logo") @SerializedName("logo") Image logo;
+  @Column(name = "Flag") @SerializedName("flag") Image flag;
+  @Column(name = "Details") @SerializedName("statistics") JsonObject details;
 
-  public int getId() {
-    return id;
+  public Team() {
+    super();
+  }
+
+  public int getRemoteId() {
+    return remoteId;
   }
 
   public String getName() {
@@ -45,5 +54,9 @@ public class Team implements Serializable {
 
   public JsonObject getDetails() {
     return details;
+  }
+
+  public List<Driver> drivers() {
+    return getMany(Driver.class, "Team");
   }
 }
