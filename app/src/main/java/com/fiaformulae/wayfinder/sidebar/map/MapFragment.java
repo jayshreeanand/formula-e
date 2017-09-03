@@ -63,6 +63,7 @@ public class MapFragment extends Fragment implements MapContract.View, OnMapRead
   private boolean isFabOpen = false;
   private ArrayList<Marker> markers = new ArrayList<>();
   private Place userLocation = new Place();
+  private Marker currentMarker;
 
   public static MapFragment newInstance(ArrayList<Place> markerPlaces) {
     MapFragment fragment = new MapFragment();
@@ -145,6 +146,7 @@ public class MapFragment extends Fragment implements MapContract.View, OnMapRead
       showMarkers(markerPlaces);
     }
     mapboxMap.setOnMarkerClickListener(marker -> {
+      currentMarker = marker;
       locationText.setText(marker.getTitle());
       directionButton.setVisibility(View.VISIBLE);
       if (slidingLayout.getPanelState() == SlidingUpPanelLayout.PanelState.HIDDEN) {
@@ -199,13 +201,11 @@ public class MapFragment extends Fragment implements MapContract.View, OnMapRead
   @OnClick(R.id.fab_location) void onFabLocationClick() {
     IconFactory iconFactory = IconFactory.getInstance(getContext());
     Icon icon = iconFactory.fromResource(R.drawable.ic_food);
-    Marker marker = mapboxMap.addMarker(new MarkerOptions().position(
-        new LatLng(userLocation.getLatitude(), userLocation.getLongitude()))
+    Marker marker = mapboxMap.addMarker(new MarkerOptions().position(userLocation.getLatLng())
         .title(userLocation.getName())); // .icon(icon)
     markers.add(marker);
     CameraPosition position = new CameraPosition.Builder().target(
-        new LatLng(userLocation.getLatitude(),
-            userLocation.getLongitude())) // Sets the new camera position
+        userLocation.getLatLng()) // Sets the new camera position
         .tilt(30).build();
 
     mapboxMap.animateCamera(CameraUpdateFactory.newCameraPosition(position), 2000);
@@ -215,10 +215,9 @@ public class MapFragment extends Fragment implements MapContract.View, OnMapRead
     clearMarkers();
     ArrayList<LatLng> locations = new ArrayList<>();
     for (Place place : placeList) {
-      LatLng location = new LatLng(place.getLatitude(), place.getLongitude());
-      locations.add(location);
-      Marker marker =
-          mapboxMap.addMarker(new MarkerOptions().position(location).title(place.getName()));
+      locations.add(place.getLatLng());
+      Marker marker = mapboxMap.addMarker(
+          new MarkerOptions().position(place.getLatLng()).title(place.getName()));
       markers.add(marker);
     }
     LatLngBounds.Builder latLngBoundsBuilder = new LatLngBounds.Builder();
