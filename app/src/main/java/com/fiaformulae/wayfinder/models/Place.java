@@ -4,6 +4,7 @@ import com.activeandroid.Model;
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
 import com.google.gson.annotations.SerializedName;
+import com.mapbox.mapboxsdk.geometry.LatLng;
 import java.io.Serializable;
 
 @Table(name = "Places") public class Place extends Model implements Serializable {
@@ -27,6 +28,10 @@ import java.io.Serializable;
     return name;
   }
 
+  public void setName(String name) {
+    this.name = name;
+  }
+
   public String getDescription() {
     return description;
   }
@@ -35,11 +40,23 @@ import java.io.Serializable;
     return latitude;
   }
 
+  public void setLatitude(double latitude) {
+    this.latitude = latitude;
+  }
+
   public double getLongitude() {
     return longitude;
   }
 
+  public void setLongitude(double longitude) {
+    this.longitude = longitude;
+  }
+
   public String getKind() {
     return kind;
+  }
+
+  public LatLng getLatLng() {
+    return new LatLng(getLatitude(), getLongitude());
   }
 }

@@ -86,7 +86,11 @@ dependencies {
   compile 'com.michaelpardo:activeandroid:3.1.0-SNAPSHOT'
 
   //Mapbox
+  compile 'com.mapbox.mapboxsdk:mapbox-android-services:2.3.0-SNAPSHOT'
   compile ('com.mapbox.mapboxsdk:mapbox-android-sdk:5.1.0@aar'){
     transitive=true
   }
+
+  //Sliding Up Panel
+  compile 'com.sothree.slidinguppanel:library:3.3.1'
 }
