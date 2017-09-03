@@ -10,8 +10,9 @@ import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ProgressBar;
-import android.widget.Toast;
+import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -32,6 +33,7 @@ import com.mapbox.mapboxsdk.geometry.LatLngBounds;
 import com.mapbox.mapboxsdk.maps.MapView;
 import com.mapbox.mapboxsdk.maps.MapboxMap;
 import com.mapbox.mapboxsdk.maps.OnMapReadyCallback;
+import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,6 +47,7 @@ import static com.fiaformulae.wayfinder.AppConstants.USER_LONGITUDE;
 
 public class MapFragment extends Fragment implements MapContract.View, OnMapReadyCallback {
   private static final String TAG = "MapFragment";
+  @BindView(R.id.sliding_layout) SlidingUpPanelLayout slidingLayout;
   @BindView(R.id.mapview) MapView mapView;
   @BindView(R.id.progress_bar) ProgressBar progressBar;
   @BindView(R.id.fab) FloatingActionButton fab;
@@ -52,6 +55,8 @@ public class MapFragment extends Fragment implements MapContract.View, OnMapRead
   @BindView(R.id.fab_game) FloatingActionButton fabGame;
   @BindView(R.id.fab_food) FloatingActionButton fabFood;
   @BindView(R.id.fab_location) FloatingActionButton fabLocation;
+  @BindView(R.id.location_name) TextView locationText;
+  @BindView(R.id.direction_button) Button directionButton;
   private MapContract.Presenter presenter;
   private MapboxMap mapboxMap;
   private List<Place> places;
@@ -95,6 +100,9 @@ public class MapFragment extends Fragment implements MapContract.View, OnMapRead
     super.onResume();
     mapView.onResume();
     setCurrentLocation();
+    slidingLayout.setFadeOnClickListener(
+        view -> slidingLayout.setPanelState(SlidingUpPanelLayout.PanelState.HIDDEN));
+    slidingLayout.addPanelSlideListener(onSlideListener());
   }
 
   @Override public void onPause() {
@@ -137,7 +145,14 @@ public class MapFragment extends Fragment implements MapContract.View, OnMapRead
       showMarkers(markerPlaces);
     }
     mapboxMap.setOnMarkerClickListener(marker -> {
-      Toast.makeText(getContext(), marker.getTitle(), Toast.LENGTH_SHORT).show();
+      locationText.setText(marker.getTitle());
+      directionButton.setVisibility(View.VISIBLE);
+      if (slidingLayout.getPanelState() == SlidingUpPanelLayout.PanelState.HIDDEN) {
+        slidingLayout.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
+      }
+      if (CURRENT_LOCATION.equalsIgnoreCase(marker.getTitle())) {
+        directionButton.setVisibility(View.GONE);
+      }
       return true;
     });
   }
@@ -175,6 +190,10 @@ public class MapFragment extends Fragment implements MapContract.View, OnMapRead
   @OnClick(R.id.fab_food) void onFabFoodClick() {
     ArrayList<Place> foodBooths = presenter.getPlacesContainingString(places, PLACE_FOOD);
     showMarkers(foodBooths);
+  }
+
+  @OnClick(R.id.direction_button) void onDirectionButtonClick() {
+
   }
 
   @OnClick(R.id.fab_location) void onFabLocationClick() {
@@ -241,6 +260,21 @@ public class MapFragment extends Fragment implements MapContract.View, OnMapRead
     userLocation.setLatitude(USER_LATITUDE);
     userLocation.setLongitude(USER_LONGITUDE);
     userLocation.setName(CURRENT_LOCATION);
+  }
+
+  private SlidingUpPanelLayout.PanelSlideListener onSlideListener() {
+    return new SlidingUpPanelLayout.PanelSlideListener() {
+      @Override public void onPanelSlide(View view, float v) {
+      }
+
+      @Override
+      public void onPanelStateChanged(View panel, SlidingUpPanelLayout.PanelState previousState,
+          SlidingUpPanelLayout.PanelState newState) {
+        if (newState == SlidingUpPanelLayout.PanelState.COLLAPSED) {
+          slidingLayout.setPanelState(SlidingUpPanelLayout.PanelState.HIDDEN);
+        }
+      }
+    };
   }
 
   private class DrawTrackGeoJson extends AsyncTask<Void, Void, List<LatLng>> {
