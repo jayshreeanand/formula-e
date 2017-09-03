@@ -16,6 +16,8 @@ import com.fiaformulae.wayfinder.drivers.DriversActivity;
 import com.fiaformulae.wayfinder.models.Team;
 import java.util.List;
 
+import static com.fiaformulae.wayfinder.AppConstants.TEAM_ID;
+
 public class TeamsAdapter extends RecyclerView.Adapter<TeamsAdapter.ViewHolder> {
   private List<Team> teams;
   private Context context;
@@ -40,7 +42,9 @@ public class TeamsAdapter extends RecyclerView.Adapter<TeamsAdapter.ViewHolder> 
     }
 
     holder.getView().setOnClickListener(view -> {
-      context.startActivity(new Intent(context, DriversActivity.class));
+      Intent intent = new Intent(context, DriversActivity.class);
+      intent.putExtra(TEAM_ID, team.getRemoteId());
+      context.startActivity(intent);
     });
   }
 
