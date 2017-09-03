@@ -1,18 +1,21 @@
 package com.fiaformulae.wayfinder.sidebar.map;
 
 import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -25,6 +28,7 @@ import com.mapbox.mapboxsdk.annotations.Icon;
 import com.mapbox.mapboxsdk.annotations.IconFactory;
 import com.mapbox.mapboxsdk.annotations.Marker;
 import com.mapbox.mapboxsdk.annotations.MarkerOptions;
+import com.mapbox.mapboxsdk.annotations.Polyline;
 import com.mapbox.mapboxsdk.annotations.PolylineOptions;
 import com.mapbox.mapboxsdk.camera.CameraPosition;
 import com.mapbox.mapboxsdk.camera.CameraUpdateFactory;
@@ -33,9 +37,18 @@ import com.mapbox.mapboxsdk.geometry.LatLngBounds;
 import com.mapbox.mapboxsdk.maps.MapView;
 import com.mapbox.mapboxsdk.maps.MapboxMap;
 import com.mapbox.mapboxsdk.maps.OnMapReadyCallback;
+import com.mapbox.services.api.directions.v5.DirectionsCriteria;
+import com.mapbox.services.api.directions.v5.MapboxDirections;
+import com.mapbox.services.api.directions.v5.models.DirectionsResponse;
+import com.mapbox.services.api.directions.v5.models.DirectionsRoute;
+import com.mapbox.services.commons.geojson.LineString;
+import com.mapbox.services.commons.models.Position;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 import java.util.ArrayList;
 import java.util.List;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 import static com.fiaformulae.wayfinder.AppConstants.CURRENT_LOCATION;
 import static com.fiaformulae.wayfinder.AppConstants.PLACES;
@@ -44,6 +57,7 @@ import static com.fiaformulae.wayfinder.AppConstants.PLACE_GAMING;
 import static com.fiaformulae.wayfinder.AppConstants.PLACE_WASHROOM;
 import static com.fiaformulae.wayfinder.AppConstants.USER_LATITUDE;
 import static com.fiaformulae.wayfinder.AppConstants.USER_LONGITUDE;
+import static com.mapbox.services.Constants.PRECISION_6;
 
 public class MapFragment extends Fragment implements MapContract.View, OnMapReadyCallback {
   private static final String TAG = "MapFragment";
@@ -64,6 +78,8 @@ public class MapFragment extends Fragment implements MapContract.View, OnMapRead
   private ArrayList<Marker> markers = new ArrayList<>();
   private Place userLocation = new Place();
   private Marker currentMarker;
+  private DirectionsRoute currentRoute = null;
+  private Polyline currentRoutePolyline;
 
   public static MapFragment newInstance(ArrayList<Place> markerPlaces) {
     MapFragment fragment = new MapFragment();
@@ -195,10 +211,14 @@ public class MapFragment extends Fragment implements MapContract.View, OnMapRead
   }
 
   @OnClick(R.id.direction_button) void onDirectionButtonClick() {
-
+    Position origin =
+        Position.fromCoordinates(userLocation.getLongitude(), userLocation.getLatitude());
+    Position destination = Position.fromCoordinates(currentMarker.getPosition().getLongitude(),
+        currentMarker.getPosition().getLatitude());
+    getRoute(origin, destination);
   }
 
-  @OnClick(R.id.fab_location) void onFabLocationClick() {
+  @OnClick(R.id.fab_location) void showMarkerOnUserLocation() {
     IconFactory iconFactory = IconFactory.getInstance(getContext());
     Icon icon = iconFactory.fromResource(R.drawable.ic_food);
     Marker marker = mapboxMap.addMarker(new MarkerOptions().position(userLocation.getLatLng())
@@ -209,6 +229,56 @@ public class MapFragment extends Fragment implements MapContract.View, OnMapRead
         .tilt(30).build();
 
     mapboxMap.animateCamera(CameraUpdateFactory.newCameraPosition(position), 2000);
+  }
+
+  private void getRoute(Position origin, Position destination) {
+    MapboxDirections client =
+        new MapboxDirections.Builder().setAccessToken(getString(R.string.mapbox_access_token))
+            .setOrigin(origin)
+            .setDestination(destination)
+            .setOverview(DirectionsCriteria.OVERVIEW_FULL)
+            .setProfile(DirectionsCriteria.PROFILE_WALKING)
+            .setAnnotation(DirectionsCriteria.ANNOTATION_DISTANCE,
+                DirectionsCriteria.ANNOTATION_DURATION)
+            .build();
+
+    client.enqueueCall(new Callback<DirectionsResponse>() {
+      @Override
+      public void onResponse(Call<DirectionsResponse> call, Response<DirectionsResponse> response) {
+        Log.d(TAG, call.request().url().toString());
+        Log.d(TAG, "Response code: " + response.code());
+
+        if (response.body() == null || response.body().getRoutes().size() < 1) {
+          Log.e(TAG, "No routes found, make sure you set the right user and access token.");
+          return;
+        }
+        currentRoute = response.body().getRoutes().get(0);
+        Log.d(TAG, "Distance: " + currentRoute.getDistance());
+        Toast.makeText(getContext(), "Distance: " + currentRoute.getDistance(), Toast.LENGTH_SHORT)
+            .show();
+        drawRoute(currentRoute);
+      }
+
+      @Override public void onFailure(Call<DirectionsResponse> call, Throwable throwable) {
+        Log.e(TAG, "Error: " + throwable.getMessage());
+        Toast.makeText(getContext(), "Error: " + throwable.getMessage(), Toast.LENGTH_SHORT).show();
+      }
+    });
+  }
+
+  private void drawRoute(DirectionsRoute route) {
+    // Convert LineString coordinates into LatLng[]
+    LineString lineString = LineString.fromPolyline(route.getGeometry(), PRECISION_6);
+    List<Position> coordinates = lineString.getCoordinates();
+    LatLng[] points = new LatLng[coordinates.size()];
+    for (int i = 0; i < coordinates.size(); i++) {
+      points[i] = new LatLng(coordinates.get(i).getLatitude(), coordinates.get(i).getLongitude());
+    }
+
+    if (currentRoutePolyline != null) mapboxMap.removePolyline(currentRoutePolyline);
+    currentRoutePolyline = mapboxMap.addPolyline(
+        new PolylineOptions().add(points).color(Color.parseColor("#009688")).width(5));
+    showMarkerOnUserLocation();
   }
 
   private void showMarkers(ArrayList<Place> placeList) {
