@@ -42,27 +42,16 @@ import java.io.Serializable;
     return imageDefault;
   }
 
-  public String getImageNormal() {
-    return imageNormal;
-  }
-
-  public String getImageThumbnail() {
-    return imageThumbnail;
-  }
-
   public Team getTeam() {
     return team;
   }
 
-  public void setTeam(Team team) {
+  public String getDetails() {
+    return driverDetails;
+  }
+
+  public void setFields(Team team) {
     this.team = team;
-  }
-
-  public JsonObject getDetails() {
-    return details;
-  }
-
-  public void setFields() {
     imageDefault = image.getDefault();
     imageNormal = image.getNormal();
     imageThumbnail = image.getThumbnail();

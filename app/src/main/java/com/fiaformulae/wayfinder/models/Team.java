@@ -51,12 +51,12 @@ import java.util.List;
     return imageDefault;
   }
 
-  public String getImageNormal() {
-    return imageNormal;
+  public String getFlagThumbnail() {
+    return flagThumbnail;
   }
 
-  public String getImageThumbnail() {
-    return imageThumbnail;
+  public String getLogoDefault() {
+    return logoDefault;
   }
 
   public void setFields() {
@@ -74,26 +74,13 @@ import java.util.List;
 
   public void setDrivers() {
     for (Driver driver : drivers) {
-      driver.setFields();
-      driver.setTeam(this);
+      driver.setFields(this);
       driver.save();
     }
   }
 
-  public ArrayList<Driver> getDrivers() {
-    return drivers;
-  }
-
-  public Image getLogo() {
-    return logo;
-  }
-
-  public Image getFlag() {
-    return flag;
-  }
-
-  public JsonObject getDetails() {
-    return details;
+  public String getDetails() {
+    return teamDetails;
   }
 
   public List<Driver> drivers() {

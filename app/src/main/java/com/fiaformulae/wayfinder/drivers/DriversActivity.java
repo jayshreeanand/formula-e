@@ -1,6 +1,10 @@
 package com.fiaformulae.wayfinder.drivers;
 
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
@@ -28,6 +32,7 @@ public class DriversActivity extends AppCompatActivity implements DriversContrac
   private Team team;
   private List<Driver> drivers;
   private DriversContract.Presenter presenter;
+  private PagerAdapter pagerAdapter;
 
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -36,6 +41,8 @@ public class DriversActivity extends AppCompatActivity implements DriversContrac
 
     presenter = new DriversPresenter(this);
     initializeViews();
+    pagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
+    viewPager.setAdapter(pagerAdapter);
   }
 
   @Override public boolean onOptionsItemSelected(MenuItem item) {
@@ -53,12 +60,26 @@ public class DriversActivity extends AppCompatActivity implements DriversContrac
     if (team == null) return;
     drivers = team.drivers();
     teamNameView.setText(team.getName());
-    if (team.getFlag() != null) {
-      Glide.with(this).load(team.getFlag()).into(teamFlagImage);
-    }
+    //if (team.getFlagThumbnail() != null) {
+    //  Glide.with(this).load(team.getFlagThumbnail()).into(teamFlagImage);
+    //}
     teamDescriptionView.setText(team.getDescription());
     if (team.getDetails() != null) {
 
+    }
+  }
+
+  private class ViewPagerAdapter extends FragmentStatePagerAdapter {
+    public ViewPagerAdapter(FragmentManager fm) {
+      super(fm);
+    }
+
+    @Override public Fragment getItem(int position) {
+      return new DriverFragment();
+    }
+
+    @Override public int getCount() {
+      return drivers.size();
     }
   }
 }
