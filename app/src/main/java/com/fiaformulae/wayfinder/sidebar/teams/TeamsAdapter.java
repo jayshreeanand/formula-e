@@ -3,7 +3,6 @@ package com.fiaformulae.wayfinder.sidebar.teams;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,10 +36,9 @@ public class TeamsAdapter extends RecyclerView.Adapter<TeamsAdapter.ViewHolder> 
 
   @Override public void onBindViewHolder(TeamsAdapter.ViewHolder holder, int position) {
     Team team = teams.get(position);
-    Log.d(TAG, team.getName());
     holder.teamNameView.setText(team.getName());
     holder.teamDescriptionView.setText(team.getDescription());
-    Glide.with(context).load(team.getImage().getDefault()).into(holder.teamImageView);
+    Glide.with(context).load(team.getImageDefault()).into(holder.teamImageView);
 
     holder.getView().setOnClickListener(view -> {
       Intent intent = new Intent(context, DriversActivity.class);
