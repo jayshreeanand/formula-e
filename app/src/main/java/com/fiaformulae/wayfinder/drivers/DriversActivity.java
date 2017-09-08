@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import com.bumptech.glide.Glide;
 import com.fiaformulae.wayfinder.R;
 import com.fiaformulae.wayfinder.models.Driver;
@@ -28,6 +29,7 @@ public class DriversActivity extends AppCompatActivity implements DriversContrac
   @BindView(R.id.win_count) TextView winCountView;
   @BindView(R.id.podium_count) TextView podiumCountView;
   @BindView(R.id.view_pager) ViewPager viewPager;
+  @BindView(R.id.back) ImageView back;
   private int teamId;
   private Team team;
   private List<Driver> drivers;
@@ -52,6 +54,10 @@ public class DriversActivity extends AppCompatActivity implements DriversContrac
         return true;
     }
     return super.onOptionsItemSelected(item);
+  }
+
+  @OnClick(R.id.back) void onBackClick() {
+    onBackPressed();
   }
 
   private void initializeViews() {
