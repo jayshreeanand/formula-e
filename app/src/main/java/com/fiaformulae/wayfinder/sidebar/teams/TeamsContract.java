@@ -1,7 +1,6 @@
 package com.fiaformulae.wayfinder.sidebar.teams;
 
 import com.fiaformulae.wayfinder.models.Team;
-import java.util.ArrayList;
 import java.util.List;
 
 public interface TeamsContract {
@@ -10,7 +9,7 @@ public interface TeamsContract {
 
     void hideProgressBar();
 
-    void onGettingTeams(ArrayList<Team> teams);
+    void onGettingTeams(List<Team> teams);
   }
 
   public interface Presenter {

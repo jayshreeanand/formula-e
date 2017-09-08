@@ -12,6 +12,7 @@ import rx.observables.ConnectableObservable;
 import rx.subscriptions.CompositeSubscription;
 
 public class TeamsPresenter implements TeamsContract.Presenter {
+  public static final String TAG = "TeamsPresenter";
   private TeamsContract.View view;
   private CompositeSubscription compositeSubscription;
   private WayfinderApi wayfinderApi;
@@ -42,9 +43,11 @@ public class TeamsPresenter implements TeamsContract.Presenter {
     view.hideProgressBar();
     new Delete().from(Team.class).execute();
     for (Team team : teams) {
+      team.setFields();
       team.save();
+      team.setDrivers();
     }
-    view.onGettingTeams(teams);
+    view.onGettingTeams(getTeamsFromDb());
   }
 
   private void onGetTeamsFailure(Throwable throwable) {

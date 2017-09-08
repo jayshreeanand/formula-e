@@ -12,10 +12,15 @@ import java.io.Serializable;
   @SerializedName("id") int remoteId;
   @Column(name = "Name") @SerializedName("name") String name;
   @Column(name = "Description") @SerializedName("description") String description;
-  @Column(name = "Image") @SerializedName("display_picture") Image image;
-  @Column(name = "Details") @SerializedName("statistics") JsonObject details;
   @Column(name = "Team", onUpdate = Column.ForeignKeyAction.CASCADE, onDelete = Column.ForeignKeyAction.CASCADE)
   @SerializedName("team") Team team;
+  @Column(name = "ImageDefault") String imageDefault;
+  @Column(name = "ImageNormal") String imageNormal;
+  @Column(name = "ImageThumbnail") String imageThumbnail;
+  @Column(name = "Details") String driverDetails;
+
+  @SerializedName("display_picture") Image image;
+  @SerializedName("statistics") JsonObject details;
 
   public Driver() {
     super();
@@ -33,15 +38,23 @@ import java.io.Serializable;
     return description;
   }
 
-  public Image getImage() {
-    return image;
+  public String getImageDefault() {
+    return imageDefault;
   }
 
   public Team getTeam() {
     return team;
   }
 
-  public JsonObject getDetails() {
-    return details;
+  public String getDetails() {
+    return driverDetails;
+  }
+
+  public void setFields(Team team) {
+    this.team = team;
+    imageDefault = image.getDefault();
+    imageNormal = image.getNormal();
+    imageThumbnail = image.getThumbnail();
+    driverDetails = details.toString();
   }
 }

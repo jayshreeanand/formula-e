@@ -14,11 +14,22 @@ import java.util.List;
   @SerializedName("id") int remoteId;
   @Column(name = "Name") @SerializedName("name") String name;
   @Column(name = "Description") @SerializedName("description") String description;
-  @Column(name = "Image") @SerializedName("display_picture") Image image;
-  @Column(name = "Drivers") @SerializedName("drivers") ArrayList<Driver> drivers;
-  @Column(name = "Logo") @SerializedName("logo") Image logo;
-  @Column(name = "Flag") @SerializedName("flag") Image flag;
-  @Column(name = "Details") @SerializedName("statistics") JsonObject details;
+  @Column(name = "Details") String teamDetails;
+  @Column(name = "ImageDefault") String imageDefault;
+  @Column(name = "ImageNormal") String imageNormal;
+  @Column(name = "ImageThumbnail") String imageThumbnail;
+  @Column(name = "LogoDefault") String logoDefault;
+  @Column(name = "LogoNormal") String logoNormal;
+  @Column(name = "LogoThumbnail") String logoThumbnail;
+  @Column(name = "FlagDefault") String flagDefault;
+  @Column(name = "FlagNormal") String flagNormal;
+  @Column(name = "FlagThumbnail") String flagThumbnail;
+
+  @SerializedName("statistics") JsonObject details;
+  @SerializedName("drivers") ArrayList<Driver> drivers;
+  @SerializedName("display_picture") Image image;
+  @SerializedName("logo") Image logo;
+  @SerializedName("flag") Image flag;
 
   public Team() {
     super();
@@ -36,24 +47,40 @@ import java.util.List;
     return description;
   }
 
-  public Image getImage() {
-    return image;
+  public String getImageDefault() {
+    return imageDefault;
   }
 
-  public ArrayList<Driver> getDrivers() {
-    return drivers;
+  public String getFlagThumbnail() {
+    return flagThumbnail;
   }
 
-  public Image getLogo() {
-    return logo;
+  public String getLogoDefault() {
+    return logoDefault;
   }
 
-  public Image getFlag() {
-    return flag;
+  public void setFields() {
+    imageDefault = image.getDefault();
+    imageNormal = image.getNormal();
+    imageThumbnail = image.getThumbnail();
+    logoDefault = logo.getDefault();
+    logoNormal = logo.getNormal();
+    logoThumbnail = logo.getThumbnail();
+    flagDefault = flag.getDefault();
+    flagNormal = flag.getNormal();
+    flagThumbnail = flag.getThumbnail();
+    teamDetails = details.toString();
   }
 
-  public JsonObject getDetails() {
-    return details;
+  public void setDrivers() {
+    for (Driver driver : drivers) {
+      driver.setFields(this);
+      driver.save();
+    }
+  }
+
+  public String getDetails() {
+    return teamDetails;
   }
 
   public List<Driver> drivers() {
