@@ -6,31 +6,37 @@
     android:orientation="vertical"
     >
 
-  <LinearLayout
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:layout_gravity="center"
-      android:gravity="center"
-      android:orientation="vertical"
+  <RelativeLayout
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
       >
 
     <ImageView
+        android:id="@+id/weather_image"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
         android:src="@drawable/ic_weather"
         />
 
     <TextView
+        android:id="@+id/city"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/weather_image"
+        android:layout_centerHorizontal="true"
         android:text="Paris"
         android:textColor="@color/white"
         android:textSize="25sp"
         />
 
     <TextView
+        android:id="@+id/temperature"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/city"
+        android:layout_centerHorizontal="true"
         android:text="24 C"
         android:textColor="@color/white"
         android:textSize="100sp"
@@ -39,13 +45,23 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@id/temperature"
         android:gravity="center"
         android:paddingEnd="@dimen/spacing_xlarge"
         android:paddingStart="@dimen/spacing_xlarge"
         android:text="It is cloudy today. Enjoy the race without rain and sunburn."
         android:textColor="@color/gallery"
+        android:visibility="gone"
         />
 
-  </LinearLayout>
+    <ProgressBar
+        android:id="@id/progress_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:visibility="gone"
+        />
+
+  </RelativeLayout>
 
 </LinearLayout>
