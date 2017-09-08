@@ -60,9 +60,9 @@ public class DriversActivity extends AppCompatActivity implements DriversContrac
     if (team == null) return;
     drivers = team.drivers();
     teamNameView.setText(team.getName());
-    //if (team.getFlagThumbnail() != null) {
-    //  Glide.with(this).load(team.getFlagThumbnail()).into(teamFlagImage);
-    //}
+    if (team.getFlagThumbnail() != null) {
+      Glide.with(this).load(team.getFlagThumbnail()).into(teamFlagImage);
+    }
     teamDescriptionView.setText(team.getDescription());
     if (team.getDetails() != null) {
 
@@ -75,11 +75,15 @@ public class DriversActivity extends AppCompatActivity implements DriversContrac
     }
 
     @Override public Fragment getItem(int position) {
-      return new DriverFragment();
+      return DriverFragment.newInstance(drivers.get(position));
     }
 
     @Override public int getCount() {
       return drivers.size();
+    }
+
+    @Override public CharSequence getPageTitle(int position) {
+      return drivers.get(position).getName().toUpperCase();
     }
   }
 }

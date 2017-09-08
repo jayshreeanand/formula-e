@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -13,13 +14,14 @@
       android:layout_centerHorizontal="true"
       android:layout_marginTop="@dimen/spacing_medium"
       android:textColor="@color/white"
-      android:textSize="18sp"
+      android:textSize="20sp"
+      android:textStyle="bold"
       tools:text="@string/app_name"
       />
 
   <ImageView
       android:id="@+id/team_flag"
-      android:layout_width="wrap_content"
+      android:layout_width="25dp"
       android:layout_height="wrap_content"
       android:layout_below="@+id/team_name"
       android:layout_centerHorizontal="true"
@@ -34,7 +36,9 @@
       android:layout_below="@+id/team_flag"
       android:layout_centerHorizontal="true"
       android:layout_marginTop="@dimen/spacing_small"
-      android:textColor="@color/white"
+      android:paddingEnd="@dimen/spacing_xmedium"
+      android:paddingStart="@dimen/spacing_xmedium"
+      android:textColor="@color/gallery"
       tools:text="@string/direction"
       />
 
@@ -45,17 +49,17 @@
       android:layout_below="@+id/team_description"
       android:layout_centerHorizontal="true"
       android:layout_marginTop="@dimen/spacing_medium"
-      android:background="@color/colorAccent"
+      android:background="@color/lochmara"
+      android:padding="@dimen/spacing_small"
       >
 
     <ImageView
         android:id="@+id/trophy"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/spacing_small"
-        android:layout_marginStart="@dimen/spacing_large"
-        android:layout_marginTop="@dimen/spacing_small"
-        tools:src="@drawable/ic_food"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="@dimen/spacing_medium"
+        android:src="@drawable/ic_cup"
         />
 
     <TextView
@@ -65,9 +69,9 @@
         android:layout_alignTop="@+id/trophy"
         android:layout_marginStart="@dimen/spacing_small"
         android:layout_toEndOf="@+id/trophy"
+        android:text="5"
         android:textColor="@color/white"
         android:textStyle="bold"
-        tools:text="5"
         />
 
     <TextView
@@ -82,12 +86,13 @@
 
     <ImageView
         android:id="@+id/podium"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
         android:layout_alignTop="@+id/trophy"
+        android:layout_centerVertical="true"
         android:layout_marginStart="@dimen/spacing_xlarge"
         android:layout_toEndOf="@+id/win_count"
-        tools:src="@drawable/ic_food"
+        android:src="@drawable/ic_podium"
         />
 
     <TextView
@@ -97,9 +102,9 @@
         android:layout_alignTop="@+id/trophy"
         android:layout_marginStart="@dimen/spacing_small"
         android:layout_toEndOf="@+id/podium"
+        android:text="5"
         android:textColor="@color/white"
         android:textStyle="bold"
-        tools:text="5"
         />
 
     <TextView
@@ -107,7 +112,7 @@
         android:layout_height="wrap_content"
         android:layout_alignStart="@+id/podium_count"
         android:layout_below="@+id/podium_count"
-        android:layout_marginEnd="@dimen/spacing_large"
+        android:layout_marginEnd="@dimen/spacing_medium"
         android:text="Podiums"
         android:textColor="@color/white"
         android:textStyle="bold"
@@ -123,6 +128,16 @@
       android:layout_marginTop="@dimen/spacing_large"
       >
 
+    <android.support.v4.view.PagerTabStrip
+        android:id="@+id/pager_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top"
+        android:paddingBottom="4dp"
+        android:paddingTop="4dp"
+        android:textColor="@color/white"
+        app:tabIndicatorColor="@color/gallery"
+        />
 
   </android.support.v4.view.ViewPager>
 
