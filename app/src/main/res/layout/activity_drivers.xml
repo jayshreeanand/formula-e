@@ -36,6 +36,7 @@
       android:layout_below="@+id/team_flag"
       android:layout_centerHorizontal="true"
       android:layout_marginTop="@dimen/spacing_small"
+      android:gravity="center"
       android:paddingEnd="@dimen/spacing_xmedium"
       android:paddingStart="@dimen/spacing_xmedium"
       android:textColor="@color/gallery"
