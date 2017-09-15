@@ -36,6 +36,7 @@ gem 'mini_magick'
 gem 'action_parameter'
 gem 'nokogiri'
 gem 'watir'
+gem 'barometer'
 
 # View
 gem 'sass-rails', '~> 5.0'

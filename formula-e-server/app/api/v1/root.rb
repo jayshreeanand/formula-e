@@ -9,6 +9,7 @@ module V1
     mount V1::EventsEndpoint
     mount V1::TeamsEndpoint
     mount V1::DriversEndpoint
+    mount V1::WeatherEndpoint
 
 
     # Authenticated Endpoints
