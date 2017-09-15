@@ -15,8 +15,10 @@ import com.fiaformulae.wayfinder.MainActivity;
 import com.fiaformulae.wayfinder.R;
 import com.fiaformulae.wayfinder.models.Team;
 import java.util.ArrayList;
+import java.util.List;
 
 public class TeamsFragment extends Fragment implements TeamsContract.View {
+  public static final String TAG = "TeamsFragment";
   TeamsContract.Presenter presenter;
   @BindView(R.id.progress_bar) ProgressBar progressBar;
   @BindView(R.id.team_list) RecyclerView teamsRecyclerView;
@@ -36,6 +38,7 @@ public class TeamsFragment extends Fragment implements TeamsContract.View {
     setAdapter(new ArrayList<>());
 
     presenter = new TeamsPresenter(this);
+    setAdapter(presenter.getTeamsFromDb());
     presenter.getTeams();
   }
 
@@ -52,11 +55,11 @@ public class TeamsFragment extends Fragment implements TeamsContract.View {
     progressBar.setVisibility(View.GONE);
   }
 
-  @Override public void onGettingTeams(ArrayList<Team> teams) {
+  @Override public void onGettingTeams(List<Team> teams) {
     setAdapter(teams);
   }
 
-  private void setAdapter(ArrayList<Team> teams) {
+  private void setAdapter(List<Team> teams) {
     RecyclerView.Adapter adapter = new TeamsAdapter(getActivity(), teams);
     teamsRecyclerView.setAdapter(adapter);
   }

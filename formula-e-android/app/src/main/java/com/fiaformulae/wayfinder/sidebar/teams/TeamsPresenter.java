@@ -1,14 +1,18 @@
 package com.fiaformulae.wayfinder.sidebar.teams;
 
 import android.util.Log;
+import com.activeandroid.query.Delete;
+import com.activeandroid.query.Select;
 import com.fiaformulae.wayfinder.models.Team;
 import com.fiaformulae.wayfinder.network.WayfinderApi;
 import com.fiaformulae.wayfinder.utils.RxUtils;
 import java.util.ArrayList;
+import java.util.List;
 import rx.observables.ConnectableObservable;
 import rx.subscriptions.CompositeSubscription;
 
 public class TeamsPresenter implements TeamsContract.Presenter {
+  public static final String TAG = "TeamsPresenter";
   private TeamsContract.View view;
   private CompositeSubscription compositeSubscription;
   private WayfinderApi wayfinderApi;
@@ -31,9 +35,19 @@ public class TeamsPresenter implements TeamsContract.Presenter {
         observable.subscribe(this::onGetTeamsSuccess, this::onGetTeamsFailure));
   }
 
+  @Override public List<Team> getTeamsFromDb() {
+    return new Select().from(Team.class).orderBy("Name ASC").execute();
+  }
+
   private void onGetTeamsSuccess(ArrayList<Team> teams) {
     view.hideProgressBar();
-    view.onGettingTeams(teams);
+    new Delete().from(Team.class).execute();
+    for (Team team : teams) {
+      team.setFields();
+      team.save();
+      team.setDrivers();
+    }
+    view.onGettingTeams(getTeamsFromDb());
   }
 
   private void onGetTeamsFailure(Throwable throwable) {

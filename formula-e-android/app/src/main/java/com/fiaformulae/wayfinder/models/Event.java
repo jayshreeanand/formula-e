@@ -1,21 +1,30 @@
 package com.fiaformulae.wayfinder.models;
 
 import android.support.annotation.NonNull;
+import com.activeandroid.Model;
+import com.activeandroid.annotation.Column;
+import com.activeandroid.annotation.Table;
 import com.google.gson.annotations.SerializedName;
 import java.io.Serializable;
 import java.util.Date;
 
-public class Event implements Serializable, Comparable<Event> {
-  @SerializedName("id") int id;
-  @SerializedName("name") String name;
-  @SerializedName("description") String description;
-  @SerializedName("place") Place place;
-  @SerializedName("starts_at") Date startTime;
-  @SerializedName("ends_at") Date endTime;
-  @SerializedName("display_picture") Image image;
+@Table(name = "Events") public class Event extends Model
+    implements Serializable, Comparable<Event> {
+  @Column(name = "remote_id", unique = true, onUniqueConflict = Column.ConflictAction.REPLACE)
+  @SerializedName("id") int remoteId;
+  @Column(name = "Name") @SerializedName("name") String name;
+  @Column(name = "Description") @SerializedName("description") String description;
+  @Column(name = "Place") @SerializedName("place") Place place;
+  @Column(name = "StartTime") @SerializedName("starts_at") Date startTime;
+  @Column(name = "EndTime") @SerializedName("ends_at") Date endTime;
+  @Column(name = "Image") @SerializedName("display_picture") Image image;
 
-  public int getId() {
-    return id;
+  public Event() {
+    super();
+  }
+
+  public int getRemoteId() {
+    return remoteId;
   }
 
   public String getName() {

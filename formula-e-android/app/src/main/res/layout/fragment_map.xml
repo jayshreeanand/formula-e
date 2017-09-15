@@ -1,69 +1,132 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:mapbox="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity"
     >
 
-  <com.mapbox.mapboxsdk.maps.MapView
-      android:id="@+id/mapview"
+  <com.sothree.slidinguppanel.SlidingUpPanelLayout
+      xmlns:sothree="http://schemas.android.com/apk/res-auto"
+      android:id="@+id/sliding_layout"
       android:layout_width="match_parent"
       android:layout_height="match_parent"
-      mapbox:mapbox_cameraTargetLat="48.856136"
-      mapbox:mapbox_cameraTargetLng="2.312504"
-      mapbox:mapbox_cameraTilt="20"
-      mapbox:mapbox_cameraZoom="14"
-      mapbox:mapbox_styleUrl="@string/mapbox_style_dark"
-      />
+      android:gravity="bottom"
+      sothree:umanoDragView="@+id/drag_view"
+      sothree:umanoInitialState="hidden"
+      sothree:umanoOverlay="true"
+      sothree:umanoParallaxOffset="75dp"
+      sothree:umanoShadowHeight="4dp"
+      >
 
-  <ProgressBar
-      android:id="@+id/progress_bar"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:layout_centerInParent="true"
-      android:visibility="gone"
-      />
+    <!-- MAIN CONTENT -->
+    <RelativeLayout
+        xmlns:mapbox="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
 
-  <android.support.design.widget.FloatingActionButton
-      android:id="@+id/fab_food"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:layout_alignParentBottom="true"
-      android:layout_alignParentEnd="true"
-      android:layout_margin="@dimen/spacing_medium"
-      android:src="@drawable/ic_food"
-      />
+      <com.mapbox.mapboxsdk.maps.MapView
+          android:id="@+id/mapview"
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          mapbox:mapbox_cameraTargetLat="48.856136"
+          mapbox:mapbox_cameraTargetLng="2.312504"
+          mapbox:mapbox_cameraTilt="20"
+          mapbox:mapbox_cameraZoom="14"
+          mapbox:mapbox_styleUrl="@string/mapbox_style_dark"
+          />
 
-  <android.support.design.widget.FloatingActionButton
-      android:id="@+id/fab_game"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:layout_alignParentBottom="true"
-      android:layout_alignParentEnd="true"
-      android:layout_margin="@dimen/spacing_medium"
-      android:src="@drawable/ic_game"
-      />
+      <ProgressBar
+          android:id="@+id/progress_bar"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_centerInParent="true"
+          android:visibility="gone"
+          />
 
-  <android.support.design.widget.FloatingActionButton
-      android:id="@+id/fab_washroom"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:layout_alignParentBottom="true"
-      android:layout_alignParentEnd="true"
-      android:layout_margin="@dimen/spacing_medium"
-      android:src="@drawable/ic_washroom"
-      />
+      <android.support.design.widget.FloatingActionButton
+          android:id="@+id/fab_location"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_above="@+id/fab"
+          android:layout_alignParentEnd="true"
+          android:layout_marginEnd="@dimen/spacing_medium"
+          />
 
-  <android.support.design.widget.FloatingActionButton
-      android:id="@+id/fab"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:layout_alignParentBottom="true"
-      android:layout_alignParentEnd="true"
-      android:layout_margin="@dimen/spacing_medium"
-      android:src="@drawable/ic_fab_expand"
-      />
+      <android.support.design.widget.FloatingActionButton
+          android:id="@+id/fab_food"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_alignParentBottom="true"
+          android:layout_alignParentEnd="true"
+          android:layout_margin="@dimen/spacing_medium"
+          android:src="@drawable/ic_food"
+          />
 
+      <android.support.design.widget.FloatingActionButton
+          android:id="@+id/fab_game"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_alignParentBottom="true"
+          android:layout_alignParentEnd="true"
+          android:layout_margin="@dimen/spacing_medium"
+          android:src="@drawable/ic_game"
+          />
+
+      <android.support.design.widget.FloatingActionButton
+          android:id="@+id/fab_washroom"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_alignParentBottom="true"
+          android:layout_alignParentEnd="true"
+          android:layout_margin="@dimen/spacing_medium"
+          android:src="@drawable/ic_washroom"
+          />
+
+      <android.support.design.widget.FloatingActionButton
+          android:id="@+id/fab"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_alignParentBottom="true"
+          android:layout_alignParentEnd="true"
+          android:layout_margin="@dimen/spacing_medium"
+          android:src="@drawable/ic_fab_expand"
+          />
+
+    </RelativeLayout>
+
+    <!-- SLIDING LAYOUT -->
+    <RelativeLayout
+        android:id="@+id/drag_view"
+        android:layout_width="match_parent"
+        android:layout_height="75dp"
+        android:background="@color/white"
+        android:clickable="true"
+        android:focusable="false"
+        android:orientation="horizontal"
+        >
+
+      <TextView
+          android:id="@+id/location_name"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_margin="@dimen/spacing_medium"
+          android:textColor="@color/colorPrimary"
+          />
+
+      <Button
+          android:id="@+id/direction_button"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_alignParentEnd="true"
+          android:layout_margin="@dimen/spacing_medium"
+          android:background="@color/colorAccent"
+          android:text="@string/direction"
+          android:textColor="@color/white"
+          />
+
+    </RelativeLayout>
+
+  </com.sothree.slidinguppanel.SlidingUpPanelLayout>
 </RelativeLayout>

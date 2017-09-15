@@ -10,7 +10,9 @@ import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -19,34 +21,37 @@ import com.fiaformulae.wayfinder.R;
 import com.fiaformulae.wayfinder.models.Place;
 import com.fiaformulae.wayfinder.utils.GeoJsonUtils;
 import com.mapbox.mapboxsdk.Mapbox;
-import com.mapbox.mapboxsdk.annotations.Marker;
-import com.mapbox.mapboxsdk.annotations.MarkerOptions;
-import com.mapbox.mapboxsdk.annotations.PolylineOptions;
 import com.mapbox.mapboxsdk.geometry.LatLng;
 import com.mapbox.mapboxsdk.maps.MapView;
 import com.mapbox.mapboxsdk.maps.MapboxMap;
 import com.mapbox.mapboxsdk.maps.OnMapReadyCallback;
+import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.fiaformulae.wayfinder.AppConstants.CURRENT_LOCATION;
 import static com.fiaformulae.wayfinder.AppConstants.PLACES;
 import static com.fiaformulae.wayfinder.AppConstants.PLACE_FOOD;
 import static com.fiaformulae.wayfinder.AppConstants.PLACE_GAMING;
 import static com.fiaformulae.wayfinder.AppConstants.PLACE_WASHROOM;
 
-public class MapFragment extends Fragment implements MapContract.View, OnMapReadyCallback {
+public class MapFragment extends Fragment
+    implements MapContract.View, OnMapReadyCallback, Map.MapListener {
   private static final String TAG = "MapFragment";
+  @BindView(R.id.sliding_layout) SlidingUpPanelLayout slidingLayout;
   @BindView(R.id.mapview) MapView mapView;
   @BindView(R.id.progress_bar) ProgressBar progressBar;
   @BindView(R.id.fab) FloatingActionButton fab;
   @BindView(R.id.fab_washroom) FloatingActionButton fabWashroom;
   @BindView(R.id.fab_game) FloatingActionButton fabGame;
   @BindView(R.id.fab_food) FloatingActionButton fabFood;
+  @BindView(R.id.fab_location) FloatingActionButton fabLocation;
+  @BindView(R.id.location_name) TextView locationText;
+  @BindView(R.id.direction_button) Button directionButton;
   private MapContract.Presenter presenter;
-  private MapboxMap mapboxMap;
-  private ArrayList<Place> places;
+  private List<Place> places;
   private boolean isFabOpen = false;
-  private ArrayList<Marker> markers = new ArrayList<>();
+  private Map map;
 
   public static MapFragment newInstance(ArrayList<Place> markerPlaces) {
     MapFragment fragment = new MapFragment();
@@ -70,6 +75,7 @@ public class MapFragment extends Fragment implements MapContract.View, OnMapRead
     ButterKnife.bind(this, view);
     ((MainActivity) getActivity()).showToolbar();
     presenter = new MapPresenter(this);
+    places = presenter.getPlacesFromDb();
     presenter.getPlaces();
     initializeMap(savedInstanceState);
   }
@@ -82,6 +88,9 @@ public class MapFragment extends Fragment implements MapContract.View, OnMapRead
   @Override public void onResume() {
     super.onResume();
     mapView.onResume();
+    slidingLayout.setFadeOnClickListener(
+        view -> slidingLayout.setPanelState(SlidingUpPanelLayout.PanelState.HIDDEN));
+    slidingLayout.addPanelSlideListener(onSlideListener());
   }
 
   @Override public void onPause() {
@@ -116,12 +125,13 @@ public class MapFragment extends Fragment implements MapContract.View, OnMapRead
   }
 
   @Override public void onMapReady(MapboxMap mapboxMap) {
-    this.mapboxMap = mapboxMap;
+    map = new Map(getActivity(), mapboxMap, this);
+    map.setCurrentLocation();
     new DrawTrackGeoJson().execute();
     new DrawEVillageGeoJson().execute();
     if (getArguments() != null && getArguments().getSerializable(PLACES) != null) {
       ArrayList<Place> markerPlaces = (ArrayList<Place>) getArguments().getSerializable(PLACES);
-      showMarkers(markerPlaces);
+      map.showMarkers(markerPlaces);
     }
   }
 
@@ -133,7 +143,7 @@ public class MapFragment extends Fragment implements MapContract.View, OnMapRead
     progressBar.setVisibility(View.GONE);
   }
 
-  @Override public void onGettingPlaces(ArrayList<Place> places) {
+  @Override public void onGettingPlaces(List<Place> places) {
     this.places = places;
   }
 
@@ -147,33 +157,26 @@ public class MapFragment extends Fragment implements MapContract.View, OnMapRead
 
   @OnClick(R.id.fab_washroom) void onFabWashroomClick() {
     ArrayList<Place> washrooms = presenter.getPlacesContainingString(places, PLACE_WASHROOM);
-    showMarkers(washrooms);
+    map.showMarkers(washrooms);
   }
 
   @OnClick(R.id.fab_game) void onFabGameClick() {
     ArrayList<Place> gameLocations = presenter.getPlacesContainingString(places, PLACE_GAMING);
-    showMarkers(gameLocations);
+    map.showMarkers(gameLocations);
   }
 
   @OnClick(R.id.fab_food) void onFabFoodClick() {
     ArrayList<Place> foodBooths = presenter.getPlacesContainingString(places, PLACE_FOOD);
-    showMarkers(foodBooths);
+    map.showMarkers(foodBooths);
   }
 
-  private void showMarkers(ArrayList<Place> placeList) {
-    clearMarkers();
-    for (Place place : placeList) {
-      Marker marker = mapboxMap.addMarker(
-          new MarkerOptions().position(new LatLng(place.getLatitude(), place.getLongitude()))
-              .title(place.getName()));
-      markers.add(marker);
-    }
+  @OnClick(R.id.direction_button) void onDirectionButtonClick() {
+    map.showRoute();
   }
 
-  private void clearMarkers() {
-    for (Marker marker : markers) {
-      mapboxMap.removeMarker(marker);
-    }
+  @OnClick(R.id.fab_location) void onFabLocationClick() {
+    map.showMarkerOnUserLocation();
+    map.animateCameraToPosition(map.userLocation.getLatLng());
   }
 
   private void expandFabMenu() {
@@ -188,13 +191,43 @@ public class MapFragment extends Fragment implements MapContract.View, OnMapRead
 
   private void collapseFabMenu() {
     isFabOpen = false;
-    clearMarkers();
+    map.clearMarkers();
     fab.setImageResource(R.drawable.ic_fab_expand);
     fab.setBackgroundTintList(
         ColorStateList.valueOf(ContextCompat.getColor(getActivity(), R.color.colorAccent)));
     fabWashroom.animate().translationX(0);
     fabGame.animate().translationX(0);
     fabFood.animate().translationX(0);
+  }
+
+  private SlidingUpPanelLayout.PanelSlideListener onSlideListener() {
+    return new SlidingUpPanelLayout.PanelSlideListener() {
+      @Override public void onPanelSlide(View view, float v) {
+      }
+
+      @Override
+      public void onPanelStateChanged(View panel, SlidingUpPanelLayout.PanelState previousState,
+          SlidingUpPanelLayout.PanelState newState) {
+        if (newState == SlidingUpPanelLayout.PanelState.COLLAPSED) {
+          slidingLayout.setPanelState(SlidingUpPanelLayout.PanelState.HIDDEN);
+        }
+      }
+    };
+  }
+
+  @Override public void onDrawRoute() {
+    slidingLayout.setPanelState(SlidingUpPanelLayout.PanelState.HIDDEN);
+  }
+
+  @Override public void onMarkerClicked(String title) {
+    locationText.setText(title);
+    directionButton.setVisibility(View.VISIBLE);
+    if (slidingLayout.getPanelState() == SlidingUpPanelLayout.PanelState.HIDDEN) {
+      slidingLayout.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
+    }
+    if (CURRENT_LOCATION.equalsIgnoreCase(title)) {
+      directionButton.setVisibility(View.GONE);
+    }
   }
 
   private class DrawTrackGeoJson extends AsyncTask<Void, Void, List<LatLng>> {
@@ -207,9 +240,7 @@ public class MapFragment extends Fragment implements MapContract.View, OnMapRead
     @Override protected void onPostExecute(List<LatLng> points) {
       super.onPostExecute(points);
       if (points.size() > 0) {
-        mapboxMap.addPolyline(new PolylineOptions().addAll(points)
-            .color(ContextCompat.getColor(getActivity(), R.color.white))
-            .width(4));
+        map.addPolyline(R.color.white, 4, points);
       }
     }
   }
@@ -224,9 +255,7 @@ public class MapFragment extends Fragment implements MapContract.View, OnMapRead
     @Override protected void onPostExecute(List<LatLng> points) {
       super.onPostExecute(points);
       if (points.size() > 0) {
-        mapboxMap.addPolyline(new PolylineOptions().addAll(points)
-            .color(ContextCompat.getColor(getActivity(), R.color.colorAccent))
-            .width(4));
+        map.addPolyline(R.color.colorAccent, 4, points);
       }
     }
   }

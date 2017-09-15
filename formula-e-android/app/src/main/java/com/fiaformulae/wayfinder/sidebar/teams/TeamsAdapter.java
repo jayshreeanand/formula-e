@@ -1,6 +1,7 @@
 package com.fiaformulae.wayfinder.sidebar.teams;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,14 +12,18 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import com.bumptech.glide.Glide;
 import com.fiaformulae.wayfinder.R;
+import com.fiaformulae.wayfinder.drivers.DriversActivity;
 import com.fiaformulae.wayfinder.models.Team;
-import java.util.ArrayList;
+import java.util.List;
+
+import static com.fiaformulae.wayfinder.AppConstants.TEAM_ID;
 
 public class TeamsAdapter extends RecyclerView.Adapter<TeamsAdapter.ViewHolder> {
-  private ArrayList<Team> teams;
+  public static final String TAG = "TeamsAdapter";
+  private List<Team> teams;
   private Context context;
 
-  public TeamsAdapter(Context context, ArrayList<Team> teams) {
+  public TeamsAdapter(Context context, List<Team> teams) {
     this.context = context;
     this.teams = teams;
   }
@@ -33,12 +38,12 @@ public class TeamsAdapter extends RecyclerView.Adapter<TeamsAdapter.ViewHolder> 
     Team team = teams.get(position);
     holder.teamNameView.setText(team.getName());
     holder.teamDescriptionView.setText(team.getDescription());
-    Glide.with(context).load(team.getImage().getDefault()).into(holder.teamImageView);
+    Glide.with(context).load(team.getImageDefault()).into(holder.teamImageView);
 
-    holder.getView().setOnClickListener(new View.OnClickListener() {
-      @Override public void onClick(View view) {
-
-      }
+    holder.getView().setOnClickListener(view -> {
+      Intent intent = new Intent(context, DriversActivity.class);
+      intent.putExtra(TEAM_ID, team.getRemoteId());
+      context.startActivity(intent);
     });
   }
 
