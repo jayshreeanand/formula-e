@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
+    >
+
+  <ImageView
+      android:id="@+id/back"
+      android:layout_width="40dp"
+      android:layout_height="40dp"
+      android:layout_margin="@dimen/spacing_small"
+      android:padding="@dimen/spacing_xsmall"
+      android:src="@drawable/ic_back"
+      />
+
+  <TextView
+      android:id="@+id/team_name"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_centerHorizontal="true"
+      android:layout_marginTop="@dimen/spacing_medium"
+      android:textColor="@color/white"
+      android:textSize="20sp"
+      android:textStyle="bold"
+      tools:text="@string/app_name"
+      />
+
+  <ImageView
+      android:id="@+id/team_flag"
+      android:layout_width="25dp"
+      android:layout_height="wrap_content"
+      android:layout_below="@+id/team_name"
+      android:layout_centerHorizontal="true"
+      android:layout_marginTop="@dimen/spacing_medium"
+      tools:src="@drawable/ic_food"
+      />
+
+  <TextView
+      android:id="@+id/team_description"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_below="@+id/team_flag"
+      android:layout_centerHorizontal="true"
+      android:layout_marginTop="@dimen/spacing_small"
+      android:gravity="center"
+      android:paddingEnd="@dimen/spacing_xmedium"
+      android:paddingStart="@dimen/spacing_xmedium"
+      android:textColor="@color/gallery"
+      tools:text="@string/direction"
+      />
+
+  <RelativeLayout
+      android:id="@+id/wins"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_below="@+id/team_description"
+      android:layout_centerHorizontal="true"
+      android:layout_marginTop="@dimen/spacing_medium"
+      android:background="@color/lochmara"
+      android:padding="@dimen/spacing_small"
+      >
+
+    <ImageView
+        android:id="@+id/trophy"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="@dimen/spacing_medium"
+        android:src="@drawable/ic_cup"
+        />
+
+    <TextView
+        android:id="@+id/win_count"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/trophy"
+        android:layout_marginStart="@dimen/spacing_small"
+        android:layout_toEndOf="@+id/trophy"
+        android:text="5"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/win_count"
+        android:layout_below="@+id/win_count"
+        android:text="Wins"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        />
+
+    <ImageView
+        android:id="@+id/podium"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_alignTop="@+id/trophy"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="@dimen/spacing_xlarge"
+        android:layout_toEndOf="@+id/win_count"
+        android:src="@drawable/ic_podium"
+        />
+
+    <TextView
+        android:id="@+id/podium_count"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/trophy"
+        android:layout_marginStart="@dimen/spacing_small"
+        android:layout_toEndOf="@+id/podium"
+        android:text="5"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/podium_count"
+        android:layout_below="@+id/podium_count"
+        android:layout_marginEnd="@dimen/spacing_medium"
+        android:text="Podiums"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        />
+
+  </RelativeLayout>
+
+  <android.support.v4.view.ViewPager
+      android:id="@+id/view_pager"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_below="@+id/wins"
+      android:layout_marginTop="@dimen/spacing_large"
+      >
+
+    <android.support.v4.view.PagerTabStrip
+        android:id="@+id/pager_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top"
+        android:paddingBottom="4dp"
+        android:paddingTop="4dp"
+        android:textColor="@color/white"
+        app:tabIndicatorColor="@color/gallery"
+        />
+
+  </android.support.v4.view.ViewPager>
+
+</RelativeLayout>

@@ -5,6 +5,7 @@ import com.fiaformulae.wayfinder.models.Driver;
 import com.fiaformulae.wayfinder.models.Event;
 import com.fiaformulae.wayfinder.models.Place;
 import com.fiaformulae.wayfinder.models.Team;
+import com.fiaformulae.wayfinder.models.Weather;
 import java.util.ArrayList;
 import okhttp3.OkHttpClient;
 import rx.observables.ConnectableObservable;
@@ -37,5 +38,11 @@ public class WayfinderApi {
 
   public ConnectableObservable<ArrayList<Driver>> getDrivers() {
     return wayfinderService.getDrivers().compose(applyIOToMainThreadSchedulers()).replay();
+  }
+
+  public ConnectableObservable<Weather> getWeather(double latitude, double longitude) {
+    return wayfinderService.getWeather(latitude, longitude)
+        .compose(applyIOToMainThreadSchedulers())
+        .replay();
   }
 }
